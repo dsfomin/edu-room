@@ -3,13 +3,12 @@ package com.backend.eduroom.controller;
 import com.backend.eduroom.model.User;
 import com.backend.eduroom.service.UserService;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController("/user")
+@RestController
+@RequestMapping("/user")
 @AllArgsConstructor
 public class UserController {
 
