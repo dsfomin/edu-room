@@ -1,17 +1,11 @@
 import logo from './logo.svg';
 import './App.css';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
 import React from 'react';
 import { getAllStudents } from './client';
 import { errorNotification } from './Notification';
 import { Container } from '@mui/material';
-import { Empty } from 'antd';
+import ResponsiveAppBar from './components/ResponsiveAppBar';
+import StudentTable from './components/StudentTable';
 
 class App extends React.Component {
   constructor(props) {
@@ -55,50 +49,11 @@ class App extends React.Component {
   render() {
     const { students } = this.state;
 
-    if (students && students.length) {
-
-      return (
-        <Container>
-          <StudentTable students={this.state.students} />
-        </Container>
-      );
-    }
-
     return (
       <Container>
-        <Empty description={
-          <h1>No Students found</h1>
-        } />
+        <ResponsiveAppBar></ResponsiveAppBar>
+        <StudentTable students={students}></StudentTable>
       </Container>
-    );
-  }
-}
-
-class StudentTable extends React.Component {
-
-  render() {
-    return (
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell>iD</TableCell>
-              <TableCell align="left">Name</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {this.props.students.map((row) => (
-              <TableRow
-                key={row.id}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-              >
-                <TableCell component="th" scope="row">{row.id}</TableCell>
-                <TableCell align="left">{row.name}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
     );
   }
 }
