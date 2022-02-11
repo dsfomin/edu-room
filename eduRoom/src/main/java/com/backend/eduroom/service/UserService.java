@@ -13,10 +13,6 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    public User saveUser(User user) {
-        return userRepository.save(user);
-    }
-
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
@@ -31,5 +27,13 @@ public class UserService {
 
     public void unblockUser(Long id) {
         userRepository.unblockUser(id);
+    }
+
+    public User addNewUser(User user) {
+        return userRepository.save(user);
+    }
+
+    public void deleteUser(Long userId) {
+        userRepository.deleteById(userId);
     }
 }

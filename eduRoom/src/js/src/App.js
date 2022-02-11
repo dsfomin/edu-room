@@ -1,7 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import React from 'react';
-import { getAllStudents } from './client';
+import { getAllUsers } from './client';
 import { errorNotification } from './Notification';
 import { Container } from '@mui/material';
 import ResponsiveAppBar from './components/ResponsiveAppBar';
@@ -26,7 +26,7 @@ class App extends React.Component {
     this.setState({
       isFetching: true
     });
-    getAllStudents()
+    getAllUsers()
       .then(res => res.json()
         .then(students => {
           console.log(students);
@@ -51,8 +51,8 @@ class App extends React.Component {
 
     return (
       <Container>
-        <ResponsiveAppBar></ResponsiveAppBar>
-        <StudentTable students={students}></StudentTable>
+        <ResponsiveAppBar/>
+        <StudentTable fetchStudents={this.fetchStudents} students={students}/>
       </Container>
     );
   }
