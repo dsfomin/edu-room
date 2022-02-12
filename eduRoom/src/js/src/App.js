@@ -1,11 +1,12 @@
 import logo from './logo.svg';
 import './App.css';
 import React from 'react';
-import { getAllUsers } from './client';
+import { getAllUsers, addNewUser } from './client';
 import { errorNotification } from './Notification';
 import { Container } from '@mui/material';
 import ResponsiveAppBar from './components/ResponsiveAppBar';
 import StudentTable from './components/StudentTable';
+import AddUserForm from './components/AddUserForm';
 
 class App extends React.Component {
   constructor(props) {
@@ -50,9 +51,11 @@ class App extends React.Component {
     const { students } = this.state;
 
     return (
+      
       <Container>
         <ResponsiveAppBar/>
         <StudentTable fetchStudents={this.fetchStudents} students={students}/>
+        <AddUserForm addUser={addNewUser}></AddUserForm>
       </Container>
     );
   }

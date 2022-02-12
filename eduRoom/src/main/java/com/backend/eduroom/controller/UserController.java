@@ -1,11 +1,13 @@
 package com.backend.eduroom.controller;
 
 import com.backend.eduroom.model.User;
+import com.backend.eduroom.model.UserRole;
 import com.backend.eduroom.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @AllArgsConstructor
@@ -21,6 +23,8 @@ public class UserController {
 
     @PostMapping
     public void addNewStudent(@RequestBody User user) {
+        user.setIsActive(true);
+        user.setRoles(Set.of(UserRole.USER));
         userService.addNewUser(user);
     }
 
