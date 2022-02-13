@@ -37,38 +37,6 @@ export default function AddUserForm({ addUser }) {
             <Typography />
             <Button onClick={handleSubmit}>Create User</Button>
         </Paper>
-
-
-        /* <form onSubmit={handleSubmit}>
-            <label for="name">Name</label>
-            <input
-                type="text"
-                value={user.name}
-                name="name"
-                onChange={e => setUser({ ...user, name: e.target.value })}
-            />
-            <br />
-            <label for="surname">Surname</label>
-            <input
-                type="text"
-                value={user.surname}
-                name="surname"
-                onChange={e => setUser({ ...user, surname: e.target.value })}
-            />
-            <br />
-            <label for="email">Email</label>
-            <input
-                type="text"
-                value={user.email}
-                name="email"
-                onChange={e => setUser({ ...user, email: e.target.value })}
-            />
-            <br />
-            <input
-                type="submit"
-                value={"Create User"}
-            />
-        </form> */
     )
 }
 

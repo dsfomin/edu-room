@@ -11,6 +11,7 @@ import { Button, Typography } from '@mui/material';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
+import { Link } from "react-router-dom";
 import { deleteUser } from '../client';
 
 class StudentTable extends React.Component {
@@ -24,7 +25,7 @@ class StudentTable extends React.Component {
   render() {
     return (
       <TableContainer component={Paper} sx={{ width: 1, mt: 10 }}>
-        <Button variant="outlined" startIcon={<AddCircleOutlineIcon />}>Add User</Button>
+        <Link to="/addnewuser"><Button variant="outlined" startIcon={<AddCircleOutlineIcon />}>Add User</Button></Link>
         {(this.props.students && this.props.students.length)
           ? <Table aria-label="simple table">
             <TableHead>
