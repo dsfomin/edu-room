@@ -13,31 +13,80 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import { Link } from "react-router-dom";
 import { deleteUser } from '../client';
+import { getAllUsers } from '../client';
+import { errorNotification } from '../Notification';
 
 class StudentTable extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      students: [],
+      isFetching: false,
+    }
+
+    this.fetchStudents = this.fetchStudents.bind(this);
+  }
+
+  componentDidMount() {
+    this.fetchStudents();
+  }
+
+  fetchStudents() {
+    this.setState({
+      isFetching: true
+    });
+    getAllUsers()
+      .then(res => res.json()
+        .then(students => {
+          console.log(students);
+          this.setState({
+            students,
+            isFetching: false
+          });
+        }))
+      .catch(error => {
+        console.log(error.error);
+        const message = error.error.message;
+        const description = error.error.error;
+        errorNotification(message, description);
+        this.setState({
+          isFetching: false
+        });
+      });
+  }
+
+
   deleteUser = (userId) => {
-    deleteUser(userId).then(() => this.props.fetchStudents()).catch(err => {
+    deleteUser(userId).then(() => this.fetchStudents()).catch(err => {
       console.log('error', 'error', `(${err.error.status}) ${err.error.error}`);
     });
   }
 
-
   render() {
+    const { students } = this.state;
+
     return (
       <TableContainer component={Paper} sx={{ width: 1, mt: 10 }}>
-        <Link to="/addnewuser"><Button variant="outlined" startIcon={<AddCircleOutlineIcon />}>Add User</Button></Link>
-        {(this.props.students && this.props.students.length)
+        <Link
+          style={{ textDecoration: "none" }}
+          to="/addnewuser"
+        >
+          <Button variant="outlined" startIcon={<AddCircleOutlineIcon />}>
+            Add User
+          </Button>
+        </Link>
+        {(students && students.length)
           ? <Table aria-label="simple table">
             <TableHead>
               <TableRow>
                 <TableCell>ID</TableCell>
                 <TableCell>Name</TableCell>
-                <TableCell></TableCell>
-                <TableCell></TableCell>
+                <TableCell/>
+                <TableCell/>
               </TableRow>
             </TableHead>
             <TableBody>
-              {this.props.students.map((user) => (
+              {students.map((user) => (
                 <TableRow
                   key={user.id}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}

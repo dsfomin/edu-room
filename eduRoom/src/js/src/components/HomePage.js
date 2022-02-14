@@ -1,11 +1,10 @@
-import { Link } from "react-router-dom";
+import { Box } from "@mui/material";
 
 export default function HomePage() {
     
     return (
         <>
-            <h1>Hello!</h1>
-            <Link to={'/users'}>Users</Link>
+            <Box sx={{mt: 10}}>Hello!</Box>
         </>
     )
 }

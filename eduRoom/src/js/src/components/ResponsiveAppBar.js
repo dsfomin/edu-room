@@ -11,8 +11,8 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
+import { Link } from "react-router-dom";
 
-const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 const ResponsiveAppBar = () => {
@@ -38,15 +38,16 @@ const ResponsiveAppBar = () => {
     <AppBar position="absolute">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
-          >
-            EduRoom
-          </Typography>
-
+          <Link to={"/"} style={{textDecoration:"none", color: '#fff'}}>
+            <Typography
+              variant="h6"
+              noWrap
+              component="div"
+              sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
+            >
+              EduRoom
+            </Typography>
+          </Link>
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
@@ -76,11 +77,12 @@ const ResponsiveAppBar = () => {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
-              ))}
+              <MenuItem component={Link} to={"/users"} key={"users"} onClick={handleCloseNavMenu}>
+                <Typography textAlign="center">Users</Typography>
+              </MenuItem>
+              <MenuItem key={"products"} onClick={handleCloseNavMenu}>
+                <Typography textAlign="center">Products</Typography>
+              </MenuItem>
             </Menu>
           </Box>
           <Typography
@@ -89,18 +91,24 @@ const ResponsiveAppBar = () => {
             component="div"
             sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
           >
-            LOGO
+            EduRoom
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-              >
-                {page}
-              </Button>
-            ))}
+            <Button
+              component={Link}
+              to={"/users"}
+              key={"users"}
+              sx={{ my: 2, color: 'white', display: 'block' }}
+            >
+              Users
+            </Button>
+            <Button
+              key={"products"}
+              onClick={handleCloseNavMenu}
+              sx={{ my: 2, color: 'white', display: 'block' }}
+            >
+              Products
+            </Button>
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
