@@ -1,5 +1,7 @@
 import fetch from 'unfetch';
 
+export const baseUrl = "http://localhost:5000/api/";
+
 const checkStatus = response => {
     if (response.ok) {
         return response;
@@ -14,10 +16,10 @@ const checkStatus = response => {
 }
 
 export const getAllUsers = () =>
-    fetch('/api/users').then(checkStatus);
+    fetch(baseUrl + 'users').then(checkStatus);
 
 export const addNewUser = user =>
-    fetch('/api/users', {
+    fetch(baseUrl + 'users', {
         headers: {
             'Content-Type': 'application/json'
         },
@@ -27,7 +29,7 @@ export const addNewUser = user =>
         .then(checkStatus);
 
 export const updateUser = (userId, user) =>
-    fetch(`/api/users/${userId}`, {
+    fetch(baseUrl + `users/${userId}`, {
         headers: {
             'Content-Type': 'application/json'
         },
@@ -37,7 +39,7 @@ export const updateUser = (userId, user) =>
         .then(checkStatus);
 
 export const deleteUser = userId =>
-    fetch(`/api/users/${userId}`, {
+    fetch(baseUrl + `users/${userId}`, {
         method: 'DELETE'
     })
         .then(checkStatus);

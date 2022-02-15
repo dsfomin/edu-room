@@ -1,19 +1,18 @@
-import React from 'react';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import DeleteIcon from '@mui/icons-material/Delete';
+import ModeEditIcon from '@mui/icons-material/ModeEdit';
+import { Button, Typography } from '@mui/material';
+import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
 import { Empty } from 'antd';
-import { Button, Typography } from '@mui/material';
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import DeleteIcon from '@mui/icons-material/Delete';
-import ModeEditIcon from '@mui/icons-material/ModeEdit';
+import React from 'react';
 import { Link } from "react-router-dom";
-import { deleteUser } from '../client';
-import { getAllUsers } from '../client';
+import { deleteUser, getAllUsers } from '../client';
 import { errorNotification } from '../Notification';
 
 class StudentTable extends React.Component {
@@ -97,7 +96,13 @@ class StudentTable extends React.Component {
                     <Button onClick={() => this.deleteUser(user.id)} variant="outlined" startIcon={<DeleteIcon />}>Delete User</Button>
                   </TableCell>
                   <TableCell>
-                    <Button variant="outlined" startIcon={<ModeEditIcon />}>Edit User</Button>
+                  <Link
+                      style={{ textDecoration: "none" }}
+                      to="/edituser"
+                      
+                    >
+                      <Button onClick={() => this.props.handleEditUser(user)} variant="outlined" startIcon={<ModeEditIcon />}>Edit User</Button>
+                    </Link>
                   </TableCell>
                 </TableRow>
               ))}

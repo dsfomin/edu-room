@@ -18,7 +18,6 @@ export default function AddUserForm() {
         addNewUser(user);
         navigate('/users');
         setUser({ name: "", surname: "", email: "" });
-        
     };
 
     return (
