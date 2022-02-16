@@ -22,6 +22,11 @@ public class UserController {
         return userService.getAllUsers();
     }
 
+    @GetMapping(path = "{userId}")
+    public User getUser(@PathVariable("userId") Long userId) {
+        return userService.getUser(userId);
+    }
+
     @PostMapping
     public void addNewStudent(@RequestBody User user) {
         user.setIsActive(true);

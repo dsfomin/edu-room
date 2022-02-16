@@ -65,54 +65,57 @@ class StudentTable extends React.Component {
     const { students } = this.state;
 
     return (
-      <TableContainer component={Paper} sx={{ width: 1, mt: 10 }}>
+      <>
         <Link
           style={{ textDecoration: "none" }}
           to="/addnewuser"
         >
-          <Button variant="outlined" startIcon={<AddCircleOutlineIcon />}>
+          <Button sx={{ mt: 2 }} variant="outlined" startIcon={<AddCircleOutlineIcon />}>
             Add User
           </Button>
         </Link>
-        {(students && students.length)
-          ? <Table aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <TableCell>ID</TableCell>
-                <TableCell>Name</TableCell>
-                <TableCell/>
-                <TableCell/>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {students.map((user) => (
-                <TableRow
-                  key={user.id}
-                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                >
-                  <TableCell scope="user">{user.id}</TableCell>
-                  <TableCell>{user.name}</TableCell>
-                  <TableCell>
-                    <Button onClick={() => this.deleteUser(user.id)} variant="outlined" startIcon={<DeleteIcon />}>Delete User</Button>
-                  </TableCell>
-                  <TableCell>
-                  <Link
-                      style={{ textDecoration: "none" }}
-                      to="/edituser"
-                      
-                    >
-                      <Button onClick={() => this.props.handleEditUser(user)} variant="outlined" startIcon={<ModeEditIcon />}>Edit User</Button>
-                    </Link>
-                  </TableCell>
+
+        <TableContainer component={Paper} sx={{ width: 1, mt: 1 }}>
+          {(students && students.length)
+            ? <Table aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCell>ID</TableCell>
+                  <TableCell>Name</TableCell>
+                  <TableCell />
+                  <TableCell />
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-          : <Empty description={
-            <Typography component={'span'} variant={'body2'}>No Students found</Typography>
-          } />
-        }
-      </TableContainer>
+              </TableHead>
+              <TableBody>
+                {students.map((user) => (
+                  <TableRow
+                    key={user.id}
+                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                  >
+                    <TableCell scope="user">{user.id}</TableCell>
+                    <TableCell>{user.name}</TableCell>
+                    <TableCell>
+                      <Button onClick={() => this.deleteUser(user.id)} variant="outlined" startIcon={<DeleteIcon />}>Delete User</Button>
+                    </TableCell>
+                    <TableCell>
+                      <Link
+                        style={{ textDecoration: "none" }}
+                        to={`/edituser/${user.id}`}
+
+                      >
+                        <Button variant="outlined" startIcon={<ModeEditIcon />}>Edit User</Button>
+                      </Link>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+            : <Empty description={
+              <Typography component={'span'} variant={'body2'}>No Students found</Typography>
+            } />
+          }
+        </TableContainer>
+      </>
     );
   }
 }

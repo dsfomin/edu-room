@@ -4,7 +4,7 @@ export default function HomePage() {
     
     return (
         <>
-            <Box sx={{mt: 10}}>Hello!</Box>
+            <Box sx={{mt: 2}}>Hello!</Box>
         </>
     )
 }

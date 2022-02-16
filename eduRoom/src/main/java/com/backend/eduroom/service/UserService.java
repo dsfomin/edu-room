@@ -16,7 +16,7 @@ public class UserService {
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
-    public User findUserById(Long id) {
+    public User getUser(Long id) {
         return userRepository.findById(id).orElseThrow(() ->
                 new IllegalArgumentException("User with id: " + id + " not found"));
     }

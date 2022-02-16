@@ -35,7 +35,7 @@ const ResponsiveAppBar = () => {
   };
 
   return (
-    <AppBar position="absolute">
+    <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Link to={"/"} style={{textDecoration:"none", color: '#fff'}}>

@@ -43,3 +43,9 @@ export const deleteUser = userId =>
         method: 'DELETE'
     })
         .then(checkStatus);
+
+export const findUser = userId =>
+    fetch(baseUrl + `users/${userId}`, {
+        method: 'GET'
+    })
+        .then(checkStatus);

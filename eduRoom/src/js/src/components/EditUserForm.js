@@ -1,86 +1,59 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
-import { Paper, TextField, Typography, Button, Box, Link } from "@mui/material";
-import { useNavigate } from 'react-router-dom';
-import { updateUser } from '../client';
+import { Paper, TextField, Typography, Button } from "@mui/material";
+import { useNavigate, useParams } from 'react-router-dom';
+import { findUser, updateUser } from '../client';
 
 
-export default class EditUserForm extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            user: {
-                name: this.props.user.name,
-                surname: this.props.user.surname,
-                email: this.props.user.email,
-            },
-        }
-        this.handleChangeName = this.handleChangeName.bind(this);
-        this.handleChangeSurname = this.handleChangeSurname.bind(this);
-        this.handleChangeEmail = this.handleChangeEmail.bind(this);
-    }
+export default function EditUserForm() {
+    const navigate = useNavigate()
+    const {id} = useParams()
 
-    handleChangeName(event) {
-        this.setState(prevState => ({
-            user: {
-                ...prevState.user,
-                name: event.target.value
-            }
-        }))
-    }
+    const [user, setUser] = useState({
+        name: "",
+        surname: "",
+        email: ""
+    })
 
-    handleChangeSurname(event) {
-        this.setState(prevState => ({
-            user: {
-                ...prevState.user,
-                surname: event.target.value
-            }
-        }))
-    }
+    useEffect(() => {
+        findUser(id)
+        .then(res => res.json())
+        .then(data => setUser(data))
+    }, [id])
 
-    handleChangeEmail(event) {
-        this.setState(prevState => ({
-            user: {
-                ...prevState.user,
-                email: event.target.value
-            }
-        }))
-    }
-
-    handleSubmit = (event) => {
-        event.preventDefault();
-        updateUser(this.props.user.id, this.state.user);
-        console.log(this.props.user.id, this.state.user);
-        this.setState({ name: "", surname: "", email: "" });
+    const handleSubmit = (event) => {
+        event.preventDefault()
+        updateUser(id, user);
+        navigate('/users')
+        setUser({ name: "", surname: "", email: "" })
     };
 
-    render() {
 
-        return (
-            <>
-                <Paper>
-                    <h2>Edit User Form</h2>
-                    <TextField
-                        value={this.state.user.name}
-                        label={"Name"}
-                        onChange={this.handleChangeName}
-                    />
-                    <TextField
-                        value={this.state.user.surname}
-                        label={"Surname"}
-                        onChange={this.handleChangeSurname}
-                    />
-                    <TextField
-                        value={this.state.user.email}
-                        label={"Email"}
-                        onChange={this.handleChangeEmail}
-                    />
-                    <Typography />
-                    <Button onClick={this.handleSubmit}>Update User</Button>
-                </Paper>
-            </>
-        )
-    }
+    return (
+        <>
+            <Paper>
+                <h2>Edit User Form</h2>
+                <TextField
+                    value={user.name}
+                    label={"Name"}
+                    onChange={e => setUser({ ...user, name: e.target.value })}
+                />
+                <TextField
+                    value={user.surname}
+                    label={"Surname"}
+                    onChange={e => setUser({ ...user, surname: e.target.value })}
+                />
+                <TextField
+                    value={user.email}
+                    label={"Email"}
+                    onChange={e => setUser({ ...user, email: e.target.value })}
+                />
+                <Typography />
+                <Button onClick={handleSubmit}>Update User</Button>
+            </Paper>
+        </>
+    )
 }
+
 
 
