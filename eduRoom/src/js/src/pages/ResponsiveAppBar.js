@@ -12,6 +12,7 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { Link } from "react-router-dom";
+import { useAuth } from '../hook/useAuth';
 
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
@@ -34,11 +35,13 @@ const ResponsiveAppBar = () => {
     setAnchorElUser(null);
   };
 
+  const { user } = useAuth();
+
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <Link to={"/"} style={{textDecoration:"none", color: '#fff'}}>
+          <Link to={"/"} style={{ textDecoration: "none", color: '#fff' }}>
             <Typography
               variant="h6"
               noWrap
@@ -110,7 +113,44 @@ const ResponsiveAppBar = () => {
               Products
             </Button>
           </Box>
-
+          <Box
+            variant="h6"
+            noWrap
+            component="div"
+            sx={{ flexGrow: 0, mr: 2, display: { xs: 'none', md: 'flex' } }}
+          >
+            {(user.email === null)
+              ? <>
+                <Button
+                  // component={Link}
+                  // to={"/login"}
+                  key={"signin"}
+                  sx={{ my: 2, color: 'white', display: 'block' }}
+                >
+                  Sign In
+                </Button>
+              </>
+              :
+              <>
+                <Button
+                  // component={Link}
+                  // to={"/profile"}
+                  key={"profile"}
+                  sx={{ my: 2, color: 'white', display: 'block' }}
+                >
+                  {user.email}
+                </Button>
+                <Button
+                  // component={Link}
+                  // to={"/signout"}
+                  key={"signout"}
+                  sx={{ my: 2, color: 'white', display: 'block' }}
+                >
+                  Sign Out
+                </Button>
+              </>
+            }
+          </Box>
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
