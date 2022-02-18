@@ -2,15 +2,13 @@ package com.backend.eduroom.model;
 
 import org.springframework.security.core.GrantedAuthority;
 
-public enum UserRole
-        //implements GrantedAuthority
-{
+public enum UserRole implements GrantedAuthority {
     USER,
     TEACHER,
     ADMIN;
 
-//    @Override
-//    public String getAuthority() {
-//        return name();
-//    }
+    @Override
+    public String getAuthority() {
+        return name();
+    }
 }

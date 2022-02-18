@@ -12,9 +12,7 @@ import java.util.List;
 
 @Service
 @AllArgsConstructor
-public class UserService
-        //implements UserDetailsService
-{
+public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
 
@@ -43,9 +41,9 @@ public class UserService
         userRepository.deleteById(userId);
     }
 
-//    @Override
-//    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-//        return userRepository.findByEmail(email).orElseThrow(() ->
-//                new IllegalArgumentException("User with email: " + email + " not found"));
-//    }
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        return userRepository.findByEmail(email).orElseThrow(() ->
+                new IllegalArgumentException("User with email: " + email + " not found"));
+    }
 }

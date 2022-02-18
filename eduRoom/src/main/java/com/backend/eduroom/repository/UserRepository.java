@@ -22,5 +22,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Transactional
     void blockUser(Long id);
 
-//    Optional<User> findByEmail(String email);
+    Optional<User> findByEmail(String email);
 }

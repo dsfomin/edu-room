@@ -17,3 +17,8 @@ spring:
         dialect: org.hibernate.dialect.MySQL5Dialect
     show-sql: true
 
+jwt:
+  auth:
+    app: EduRoom-App
+    secret_key: asdfg567
+    expires_in: 3600
