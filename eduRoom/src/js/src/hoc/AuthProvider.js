@@ -1,13 +1,11 @@
 import { createContext, useState } from "react";
+import { authenticateUser } from "../client";
 
 export const AuthContext = createContext(null);
 
 export default function AuthProvider({children}) {
 
-    const db = {
-        password: "1",
-        email: "1"
-    }
+    const [token, setToken] = useState("");
 
     const [user, setUser] = useState({
         password: null,
@@ -15,14 +13,23 @@ export default function AuthProvider({children}) {
     });
 
     const signin = (newUser, cb) => {
-        if (newUser.email === db.email &&
-            newUser.password === db.password) {
+        authenticateUser(newUser)
+        .then((response)=> {
+            if (response.status===200) {
                 setUser(newUser);
                 cb();
-             }
-        else {
-            console.log("Credencials r wrong ,", user);
-        }
+            } else {
+                console.log('Something Wrong! Please Try Again'); 
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log(data.token);
+            setToken(data.token);
+        })
+        .catch((err)=>{
+            console.log("Credencials are wrong ,", user, err);
+        });
     }
 
     const signout = (cb) => {
@@ -30,7 +37,7 @@ export default function AuthProvider({children}) {
         cb();
     }
 
-    const value = {user, signin, signout}
+    const value = {user, signin, signout, token}
 
     return <AuthContext.Provider value={value}>
         {children}

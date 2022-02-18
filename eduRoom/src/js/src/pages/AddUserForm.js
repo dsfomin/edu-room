@@ -2,10 +2,12 @@ import React from "react";
 import { useState } from "react";
 import { Paper, TextField, Typography, Button } from "@mui/material";
 import { useNavigate } from 'react-router-dom';
-import { addNewUser } from '../client';
+import { addNewUser } from "../client";
+import { useAuth } from "../hook/useAuth";
 
 export default function AddUserForm() {
     const navigate = useNavigate();
+    const {token} = useAuth();
 
     const [user, setUser] = useState({
         name: "",
@@ -15,7 +17,7 @@ export default function AddUserForm() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        addNewUser(user);
+        addNewUser(user, token);
         navigate('/users');
         setUser({ name: "", surname: "", email: "" });
     };

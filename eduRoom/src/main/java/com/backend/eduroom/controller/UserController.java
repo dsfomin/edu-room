@@ -46,7 +46,7 @@ public class UserController {
     @PostMapping
     public void addNewStudent(@RequestBody User user) {
         user.setIsActive(true);
-        user.setRoles(Set.of(UserRole.USER));
+        user.setAuthorities(Set.of(UserRole.USER));
         userService.addNewUser(user);
     }
 

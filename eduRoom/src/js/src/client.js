@@ -15,11 +15,56 @@ const checkStatus = response => {
     }
 }
 
-export const getAllUsers = () =>
-    fetch(baseUrl + 'users').then(checkStatus);
-
-export const addNewUser = user =>
+export const getAllUsers = (token) =>
     fetch(baseUrl + 'users', {
+        method: 'GET',
+        headers:{
+            'Authorization':'Bearer '+ token
+        }
+    }).then(checkStatus);
+
+export const addNewUser = (user, token) =>
+    fetch(baseUrl + 'users', {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization':'Bearer '+ token
+        },
+        method: 'POST',
+        body: JSON.stringify(user),
+    })
+        .then(checkStatus);
+
+export const updateUser = (userId, user, token) =>
+    fetch(baseUrl + `users/${userId}`, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization':'Bearer '+ token
+        },
+        method: 'PUT',
+        body: JSON.stringify(user),
+    })
+        .then(checkStatus);
+
+export const deleteUser = (userId, token) =>
+    fetch(baseUrl + `users/${userId}`, {
+        method: 'DELETE',
+        headers:{
+            'Authorization':'Bearer '+ token
+        }
+    })
+        .then(checkStatus);
+
+export const findUser = (userId, token) =>
+    fetch(baseUrl + `users/${userId}`, {
+        method: 'GET',
+        headers:{
+            'Authorization':'Bearer '+ token
+        }
+    })
+        .then(checkStatus);
+
+export const authenticateUser = (user) => 
+    fetch(baseUrl + `users/login`, {
         headers: {
             'Content-Type': 'application/json'
         },
@@ -28,24 +73,4 @@ export const addNewUser = user =>
     })
         .then(checkStatus);
 
-export const updateUser = (userId, user) =>
-    fetch(baseUrl + `users/${userId}`, {
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        method: 'PUT',
-        body: JSON.stringify(user)
-    })
-        .then(checkStatus);
 
-export const deleteUser = userId =>
-    fetch(baseUrl + `users/${userId}`, {
-        method: 'DELETE'
-    })
-        .then(checkStatus);
-
-export const findUser = userId =>
-    fetch(baseUrl + `users/${userId}`, {
-        method: 'GET'
-    })
-        .then(checkStatus);

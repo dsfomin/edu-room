@@ -3,11 +3,13 @@ import { useState } from "react";
 import { Paper, TextField, Typography, Button } from "@mui/material";
 import { useNavigate, useParams } from 'react-router-dom';
 import { findUser, updateUser } from '../client';
+import { useAuth } from "../hook/useAuth";
 
 
 export default function EditUserForm() {
     const navigate = useNavigate()
     const {id} = useParams()
+    const {token} = useAuth();
 
     const [user, setUser] = useState({
         name: "",
@@ -16,14 +18,14 @@ export default function EditUserForm() {
     })
 
     useEffect(() => {
-        findUser(id)
+        findUser(id, token)
         .then(res => res.json())
         .then(data => setUser(data))
     }, [id])
 
     const handleSubmit = (event) => {
         event.preventDefault()
-        updateUser(id, user);
+        updateUser(id, user, token);
         navigate('/users')
         setUser({ name: "", surname: "", email: "" })
     };

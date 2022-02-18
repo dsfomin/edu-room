@@ -29,8 +29,8 @@ public class EduroomApplication {
 //                .name("u")
 //                .surname("s")
 //                .roles(Set.of(UserRole.USER))
-//                .email("s")
-//                .password(passwordEncoder.bCryptPasswordEncoder().encode("1"))
+//                .email("k")
+//                .password(passwordEncoder.bCryptPasswordEncoder().encode("2"))
 //                .isActive(true)
 //                .build();
 //        userRepository.save(user);
