@@ -11,7 +11,7 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from '../hook/useAuth';
 
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -19,7 +19,6 @@ const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 const ResponsiveAppBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -35,7 +34,8 @@ const ResponsiveAppBar = () => {
     setAnchorElUser(null);
   };
 
-  const { user } = useAuth();
+  const { user, signout } = useAuth();
+  const navigate = useNavigate();
 
   return (
     <AppBar position="static">
@@ -122,8 +122,8 @@ const ResponsiveAppBar = () => {
             {(user.email === null)
               ? <>
                 <Button
-                  // component={Link}
-                  // to={"/login"}
+                  component={Link}
+                  to={"/login"}
                   key={"signin"}
                   sx={{ my: 2, color: 'white', display: 'block' }}
                 >
@@ -141,10 +141,9 @@ const ResponsiveAppBar = () => {
                   {user.email}
                 </Button>
                 <Button
-                  // component={Link}
-                  // to={"/signout"}
                   key={"signout"}
                   sx={{ my: 2, color: 'white', display: 'block' }}
+                  onClick={() => signout(() => navigate("/"))}
                 >
                   Sign Out
                 </Button>

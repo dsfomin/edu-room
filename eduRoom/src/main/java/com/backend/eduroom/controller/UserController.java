@@ -7,6 +7,7 @@ import com.backend.eduroom.model.jwt.AuthenticationRequest;
 import com.backend.eduroom.model.jwt.LoginResponse;
 import com.backend.eduroom.model.jwt.UserInfo;
 import com.backend.eduroom.service.UserService;
+import com.backend.eduroom.util.PasswordEncoder;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -32,6 +33,7 @@ public class UserController {
     private final AuthenticationManager authenticationManager;
     private final JWTTokenHelper jwtTokenHelper;
     private final UserDetailsService userDetailsService;
+    private final PasswordEncoder passwordEncoder;
 
     @GetMapping
     public List<User> getAllUsers() {
@@ -87,5 +89,13 @@ public class UserController {
         userInfo.setRoles(userFromDb.getAuthorities().toArray());
 
         return ResponseEntity.ok(userInfo);
+    }
+
+    @PostMapping("/register")
+    public void register(@RequestBody User user) {
+        user.setAuthorities(Set.of(UserRole.USER));
+        user.setIsActive(true);
+        user.setPassword(passwordEncoder.bCryptPasswordEncoder().encode(user.getPassword()));
+        userService.addNewUser(user);
     }
 }

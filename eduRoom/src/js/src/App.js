@@ -11,6 +11,7 @@ import EditUserForm from './pages/EditUserForm';
 import Login from './pages/Login';
 import RequireAuth from './hoc/RequireAuth';
 import AuthProvider from './hoc/AuthProvider';
+import RegisterPage from './pages/RegisterPage';
 
 class App extends React.Component {
 
@@ -29,6 +30,7 @@ class App extends React.Component {
                 <AddUserForm />
               </RequireAuth>
             } />
+            <Route path='/register' element={<RegisterPage />} />
           </Routes>
         </Container>
       </AuthProvider>

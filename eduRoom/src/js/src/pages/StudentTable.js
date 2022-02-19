@@ -22,14 +22,14 @@ export default function StudentTable() {
   useEffect(() => {
     getAllUsers(token)
       .then(res => res.json()
-        .then(data => setStudents(data)))
+        .then(data => setStudents([...data])))
       .catch(error => {
         console.log(error);
       });
   }, [])
 
 
-  const delUser = (userId) => {
+  const delUser = (userId, token) => {
     deleteUser(userId, token).catch(err => {
       console.log('Delete User: Something went wrong', err);
     });
@@ -39,7 +39,7 @@ export default function StudentTable() {
     <>
       <Link
         style={{ textDecoration: "none" }}
-        to="/addnewuser"
+        to={"/addnewuser"}
       >
         <Button sx={{ mt: 2 }} variant="outlined" startIcon={<AddCircleOutlineIcon />}>
           Add User
@@ -66,7 +66,7 @@ export default function StudentTable() {
                   <TableCell scope="user">{user.id}</TableCell>
                   <TableCell>{user.name}</TableCell>
                   <TableCell>
-                    <Button onClick={() => delUser(user.id)} variant="outlined" startIcon={<DeleteIcon />}>Delete User</Button>
+                    <Button onClick={() => delUser(user.id, token)} variant="outlined" startIcon={<DeleteIcon />}>Delete User</Button>
                   </TableCell>
                   <TableCell>
                     <Link

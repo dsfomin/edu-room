@@ -34,6 +34,7 @@ export default function AuthProvider({children}) {
 
     const signout = (cb) => {
         setUser({password: null, email: null});
+        setToken("");
         cb();
     }
 

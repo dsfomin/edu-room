@@ -1,6 +1,6 @@
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../hook/useAuth";
-import { Paper, TextField, Typography, Button } from "@mui/material";
+import { Paper, TextField, Typography, Button, Box } from "@mui/material";
 import { useState } from "react";
 
 export default function Login() {
@@ -36,6 +36,10 @@ export default function Login() {
                 />
                 <Typography />
                 <Button onClick={handleSubmit}>Sign In</Button>
+                <Box>
+                    <Typography>Don't have account?</Typography>
+                    <Link to={"/register"}>Sign Up</Link>
+                </Box>
             </Paper>
         </>
     )
