@@ -1,12 +1,14 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useAuth } from "../hook/useAuth";
 import { Paper, TextField, Typography, Button, Box } from "@mui/material";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import {signin} from "../store/slices/userSlice"
+import { authenticateUser } from "../client";
 
 export default function Login() {
     const navigate = useNavigate();
     const location = useLocation();
-    const { signin } = useAuth();
+    const dispatch = useDispatch();
 
     const fromPage = location.state?.from?.pathname || '/'
 
@@ -17,7 +19,28 @@ export default function Login() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        signin(user, () => navigate(fromPage, { replace: true }))
+        
+        authenticateUser(user).then((response)=> {
+            if (response.status===200) {
+                console.log("Authenticated!")
+            } else {
+                console.log('Something Wrong! Please Try Again ', response.status); 
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log(data.token);
+            dispatch(signin({
+                email: data.email,
+                token: data.token,
+                id: data.id
+            }));
+            navigate(fromPage, {replace: true})
+        })
+        .catch((err)=>{
+            console.log("Credencials are wrong ,", user, err);
+        });
+        
     };
 
     return (

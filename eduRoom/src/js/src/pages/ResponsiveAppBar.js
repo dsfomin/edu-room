@@ -11,8 +11,10 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useAuth } from '../hook/useAuth';
+import { useDispatch } from 'react-redux';
+import { signout } from '../store/slices/userSlice';
 
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
@@ -34,8 +36,8 @@ const ResponsiveAppBar = () => {
     setAnchorElUser(null);
   };
 
-  const { user, signout } = useAuth();
-  const navigate = useNavigate();
+  const { isAuth, email } = useAuth();
+  const dispatch = useDispatch();
 
   return (
     <AppBar position="static">
@@ -119,7 +121,7 @@ const ResponsiveAppBar = () => {
             component="div"
             sx={{ flexGrow: 0, mr: 2, display: { xs: 'none', md: 'flex' } }}
           >
-            {(user.email === null)
+            {(isAuth === false)
               ? <>
                 <Button
                   component={Link}
@@ -138,12 +140,12 @@ const ResponsiveAppBar = () => {
                   key={"profile"}
                   sx={{ my: 2, color: 'white', display: 'block' }}
                 >
-                  {user.email}
+                  {email}
                 </Button>
                 <Button
                   key={"signout"}
                   sx={{ my: 2, color: 'white', display: 'block' }}
-                  onClick={() => signout(() => navigate("/"))}
+                  onClick={() => dispatch(signout())}
                 >
                   Sign Out
                 </Button>

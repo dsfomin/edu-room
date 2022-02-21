@@ -74,6 +74,8 @@ public class UserController {
         String jwtToken = jwtTokenHelper.generateToken(user.getEmail());
         LoginResponse response = new LoginResponse();
         response.setToken(jwtToken);
+        response.setEmail(user.getEmail());
+        response.setId(user.getId());
 
         return ResponseEntity.ok(response);
     }
