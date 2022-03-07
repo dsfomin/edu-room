@@ -135,8 +135,8 @@ const ResponsiveAppBar = () => {
               :
               <>
                 <Button
-                  // component={Link}
-                  // to={"/profile"}
+                  component={Link}
+                  to={"/profile"}
                   key={"profile"}
                   sx={{ my: 2, color: 'white', display: 'block' }}
                 >

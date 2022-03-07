@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +23,7 @@ import java.security.Principal;
 import java.security.spec.InvalidKeySpecException;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController
 @AllArgsConstructor
@@ -46,9 +48,10 @@ public class UserController {
     }
 
     @PostMapping
-    public void addNewStudent(@RequestBody User user) {
+    public void addNewTeacher(@RequestBody User user) {
         user.setIsActive(true);
-        user.setAuthorities(Set.of(UserRole.USER));
+        user.setAuthorities(Set.of(UserRole.USER, UserRole.TEACHER));
+        user.setPassword(passwordEncoder.bCryptPasswordEncoder().encode(user.getPassword()));
         userService.addNewUser(user);
     }
 
@@ -71,11 +74,10 @@ public class UserController {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
         User user = (User) authentication.getPrincipal();
+
         String jwtToken = jwtTokenHelper.generateToken(user.getEmail());
-        LoginResponse response = new LoginResponse();
-        response.setToken(jwtToken);
-        response.setEmail(user.getEmail());
-        response.setId(user.getId());
+
+        LoginResponse response = new LoginResponse(user, jwtToken);
 
         return ResponseEntity.ok(response);
     }

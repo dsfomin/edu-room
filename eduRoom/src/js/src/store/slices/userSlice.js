@@ -4,6 +4,8 @@ const initialState = {
     email: null,
     token: null,
     id: null,
+    authorities: [],
+    isAuth: false,
 };
 
 const userSlice = createSlice({
@@ -14,11 +16,15 @@ const userSlice = createSlice({
             state.email = action.payload.email;
             state.token = action.payload.token;
             state.id = action.payload.id;
+            state.authorities = action.payload.authorities;
+            state.isAuth = true;
         },
         signout(state) {
             state.email = null;
             state.token = null;
             state.id = null;
+            state.authorities = [];
+            state.isAuth = false;
         }
     }
 })

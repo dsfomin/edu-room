@@ -23,7 +23,7 @@ export const getAllUsers = (token) =>
         }
     }).then(checkStatus);
 
-export const addNewUser = (user, token) =>
+export const addNewTeacher = (user, token) =>
     fetch(baseUrl + 'users', {
         headers: {
             'Content-Type': 'application/json',

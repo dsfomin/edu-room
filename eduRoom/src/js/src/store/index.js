@@ -5,7 +5,7 @@ import storage from "redux-persist/lib/storage";
 import {combineReducers} from "redux"; 
 import thunk from 'redux-thunk'
 
-const reducers = combineReducers({
+const rootReducer = combineReducers({
     user: userReducer
 });
 
@@ -14,7 +14,7 @@ const persistConfig = {
     storage
 };
 
-const persistedReducer = persistReducer(persistConfig, reducers);
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 const store = configureStore({
     reducer: persistedReducer,

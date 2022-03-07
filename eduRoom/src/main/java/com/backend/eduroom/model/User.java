@@ -35,6 +35,12 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Set<UserRole> authorities;
 
+    @OneToMany(mappedBy = "user")
+    private Set<CourseRegistration> chosenCourses;
+
+    @ManyToMany(mappedBy = "courseTeachers")
+    private Set<Course> teacherCourses;
+
     private Boolean isActive;
 
     @Override

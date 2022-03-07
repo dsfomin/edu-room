@@ -39,10 +39,10 @@ export default function StudentTable() {
     <>
       <Link
         style={{ textDecoration: "none" }}
-        to={"/addnewuser"}
+        to={"/addnewteacher"}
       >
         <Button sx={{ mt: 2 }} variant="outlined" startIcon={<AddCircleOutlineIcon />}>
-          Add User
+          Add Teacher
         </Button>
       </Link>
 

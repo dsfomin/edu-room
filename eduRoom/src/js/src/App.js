@@ -4,31 +4,34 @@ import React from 'react';
 import { Container } from '@mui/material';
 import ResponsiveAppBar from './pages/ResponsiveAppBar';
 import StudentTable from './pages/StudentTable';
-import AddUserForm from './pages/AddUserForm';
+import AddTeacherForm from './pages/AddTeacherForm';
 import { Routes, Route } from 'react-router-dom';
 import HomePage from './pages/Home';
 import EditUserForm from './pages/EditUserForm';
 import Login from './pages/Login';
 import RegisterPage from './pages/RegisterPage';
-import { Provider } from "react-redux"
-import store from './store';
+import RequireAdminAuth from './hoc/RequireAdminAuth';
+import RequireUserAuth from './hoc/RequireUserAuth';
+import ProfilePage from './pages/ProfilePage';
 
 function App() {
 
   return (
-    <Provider store={store}>
+    <>
       <ResponsiveAppBar />
       <Container>
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/users" element={<StudentTable />} />
-          <Route path="/edituser/:id" element={<EditUserForm />} />
-          <Route path='/login' element={<Login />} />
-          <Route path="/addnewuser" element={<AddUserForm />} />
-          <Route path='/register' element={<RegisterPage />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/profile" element={<RequireUserAuth><ProfilePage/> </RequireUserAuth>} />
+          {/* <Route path="/courses" element={<RequireUserAuth><CourseTable /></RequireUserAuth>} /> */}
+          <Route path="/users" element={<RequireAdminAuth><StudentTable /></RequireAdminAuth>} />
+          <Route path="/edituser/:id" element={<RequireAdminAuth><EditUserForm/></RequireAdminAuth>} />
+          <Route path="/addnewteacher" element={<RequireAdminAuth><AddTeacherForm /></RequireAdminAuth>} />
         </Routes>
       </Container>
-    </Provider>
+    </>
   );
 }
 

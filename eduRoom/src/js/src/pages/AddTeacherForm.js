@@ -2,10 +2,10 @@ import React from "react";
 import { useState } from "react";
 import { Paper, TextField, Typography, Button } from "@mui/material";
 import { useNavigate } from 'react-router-dom';
-import { addNewUser } from "../client";
+import { addNewTeacher } from "../client";
 import { useAuth } from "../hook/useAuth";
 
-export default function AddUserForm() {
+export default function AddTeacherForm() {
     const navigate = useNavigate();
     const {token} = useAuth();
 
@@ -13,18 +13,19 @@ export default function AddUserForm() {
         name: "",
         surname: "",
         email: "",
+        password: "",
     });
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        addNewUser(user, token);
+        addNewTeacher(user, token);
         navigate('/users');
-        setUser({ name: "", surname: "", email: "" });
+        setUser({ name: "", surname: "", email: "" , password: ""});
     };
 
     return (
         <Paper>
-            <h2>Create User Form</h2>
+            <h2>Create Teacher Form</h2>
             <TextField
                 value={user.name}
                 label={"Name"}
@@ -40,8 +41,13 @@ export default function AddUserForm() {
                 label={"Email"}
                 onChange={e => setUser({ ...user, email: e.target.value })}
             />
+            <TextField
+                value={user.password}
+                label={"Password"}
+                onChange={e => setUser({ ...user, password: e.target.value })}
+            />
             <Typography />
-            <Button onClick={handleSubmit}>Create User</Button>
+            <Button onClick={handleSubmit}>Create Teacher</Button>
         </Paper>
     )
 }

@@ -33,7 +33,8 @@ export default function Login() {
             dispatch(signin({
                 email: data.email,
                 token: data.token,
-                id: data.id
+                id: data.id,
+                authorities: data.authorities,
             }));
             navigate(fromPage, {replace: true})
         })
