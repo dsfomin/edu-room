@@ -15,6 +15,8 @@ const checkStatus = response => {
     }
 }
 
+// USER API
+
 export const getAllUsers = (token) =>
     fetch(baseUrl + 'users', {
         method: 'GET',
@@ -83,4 +85,52 @@ export const registerUser = (user) =>
     })
         .then(checkStatus);
 
+// COURSE API
 
+export const addNewCourse = (course, token) =>
+    fetch(baseUrl + 'courses', {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+        },
+        method: 'POST',
+        body: JSON.stringify(course),
+    })
+        .then(checkStatus);
+
+export const getAllCourses = (token) =>
+    fetch(baseUrl + 'courses', {
+        method: 'GET',
+        headers: {
+            'Authorization': 'Bearer ' + token
+        }
+    }).then(checkStatus);
+
+export const deleteCourse = (courseId, token) =>
+    fetch(baseUrl + `courses/${courseId}`, {
+        method: 'DELETE',
+        headers: {
+            'Authorization': 'Bearer ' + token
+        }
+    })
+        .then(checkStatus);
+
+export const findCourse = (courseId, token) =>
+    fetch(baseUrl + `courses/${courseId}`, {
+        method: 'GET',
+        headers: {
+            'Authorization': 'Bearer ' + token
+        }
+    })
+        .then(checkStatus);
+
+export const updateCourse = (courseId, course, token) =>
+    fetch(baseUrl + `courses/${courseId}`, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+        },
+        method: 'PUT',
+        body: JSON.stringify(course),
+    })
+        .then(checkStatus);

@@ -39,7 +39,7 @@ export default function StudentTable() {
     <>
       <Link
         style={{ textDecoration: "none" }}
-        to={"/addnewteacher"}
+        to={"/add-new-teacher"}
       >
         <Button sx={{ mt: 2 }} variant="outlined" startIcon={<AddCircleOutlineIcon />}>
           Add Teacher
@@ -71,8 +71,7 @@ export default function StudentTable() {
                   <TableCell>
                     <Link
                       style={{ textDecoration: "none" }}
-                      to={`/edituser/${user.id}`}
-
+                      to={`/edit-user/${user.id}`}
                     >
                       <Button variant="outlined" startIcon={<ModeEditIcon />}>Edit User</Button>
                     </Link>

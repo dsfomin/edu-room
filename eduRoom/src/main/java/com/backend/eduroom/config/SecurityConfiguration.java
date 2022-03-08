@@ -28,13 +28,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().exceptionHandling()
-                .authenticationEntryPoint(authenticationEntryPoint).and()
-                .authorizeRequests((request) -> request.antMatchers(
-                        "/api/users", "/api/users/login", "/api/users/register").permitAll()
-                        .antMatchers(HttpMethod.OPTIONS, "/**").permitAll().anyRequest().authenticated())
-                .addFilterBefore(new JWTAuthenticationFilter(userService, jwtTokenHelper),
-                        UsernamePasswordAuthenticationFilter.class);
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                    .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint)
+                .and()
+                    .authorizeRequests((request) -> request
+                            .antMatchers("/api/users", "/api/users/login", "/api/users/register").permitAll()
+                            .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                            .anyRequest().authenticated())
+                    .addFilterBefore(new JWTAuthenticationFilter(userService, jwtTokenHelper),
+                            UsernamePasswordAuthenticationFilter.class);
 
         http.csrf().disable().cors().and().headers().frameOptions().disable();
     }

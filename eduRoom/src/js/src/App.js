@@ -10,9 +10,13 @@ import HomePage from './pages/Home';
 import EditUserForm from './pages/EditUserForm';
 import Login from './pages/Login';
 import RegisterPage from './pages/RegisterPage';
+import CourseTable from './pages/CourseTable';
 import RequireAdminAuth from './hoc/RequireAdminAuth';
 import RequireUserAuth from './hoc/RequireUserAuth';
 import ProfilePage from './pages/ProfilePage';
+import AddCourseForm from './pages/AddCourseForm';
+import RequireTeacherAuth from './hoc/RequireTeacherAuth';
+import EditCourseForm from './pages/EditCourseForm';
 
 function App() {
 
@@ -25,10 +29,12 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/profile" element={<RequireUserAuth><ProfilePage/> </RequireUserAuth>} />
-          {/* <Route path="/courses" element={<RequireUserAuth><CourseTable /></RequireUserAuth>} /> */}
+          <Route path="/courses" element={<RequireUserAuth><CourseTable /></RequireUserAuth>} />
           <Route path="/users" element={<RequireAdminAuth><StudentTable /></RequireAdminAuth>} />
-          <Route path="/edituser/:id" element={<RequireAdminAuth><EditUserForm/></RequireAdminAuth>} />
-          <Route path="/addnewteacher" element={<RequireAdminAuth><AddTeacherForm /></RequireAdminAuth>} />
+          <Route path="/edit-user/:id" element={<RequireAdminAuth><EditUserForm/></RequireAdminAuth>} />
+          <Route path="/add-new-teacher" element={<RequireAdminAuth><AddTeacherForm /></RequireAdminAuth>} />
+          <Route path="/add-new-course" element={<RequireTeacherAuth><AddCourseForm /></RequireTeacherAuth>} />
+          <Route path="/edit-course/:id" element={<RequireTeacherAuth><EditCourseForm/></RequireTeacherAuth>} />
         </Routes>
       </Container>
     </>

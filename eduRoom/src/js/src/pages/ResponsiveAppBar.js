@@ -85,8 +85,8 @@ const ResponsiveAppBar = () => {
               <MenuItem component={Link} to={"/users"} key={"users"} onClick={handleCloseNavMenu}>
                 <Typography textAlign="center">Users</Typography>
               </MenuItem>
-              <MenuItem key={"products"} onClick={handleCloseNavMenu}>
-                <Typography textAlign="center">Products</Typography>
+              <MenuItem component={Link} to={"/courses"} key={"courses"} onClick={handleCloseNavMenu}>
+                <Typography textAlign="center">Courses</Typography>
               </MenuItem>
             </Menu>
           </Box>
@@ -108,11 +108,13 @@ const ResponsiveAppBar = () => {
               Users
             </Button>
             <Button
-              key={"products"}
+              component={Link}
+              to={"/courses"}
+              key={"courses"}
               onClick={handleCloseNavMenu}
               sx={{ my: 2, color: 'white', display: 'block' }}
             >
-              Products
+              Courses
             </Button>
           </Box>
           <Box
@@ -143,7 +145,7 @@ const ResponsiveAppBar = () => {
                   {email}
                 </Button>
                 <Button
-                  key={"signout"}
+                  key={"sign-out"}
                   sx={{ my: 2, color: 'white', display: 'block' }}
                   onClick={() => dispatch(signout())}
                 >
