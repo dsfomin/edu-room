@@ -104,7 +104,8 @@ export const getAllCourses = (token) =>
         headers: {
             'Authorization': 'Bearer ' + token
         }
-    }).then(checkStatus);
+    })
+        .then(checkStatus);
 
 export const deleteCourse = (courseId, token) =>
     fetch(baseUrl + `courses/${courseId}`, {
@@ -134,3 +135,13 @@ export const updateCourse = (courseId, course, token) =>
         body: JSON.stringify(course),
     })
         .then(checkStatus);
+
+export const participate = (courseId, token) =>
+    fetch(baseUrl + `courses/${courseId}/participate`, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+        },
+        method: 'POST',
+    })
+        .then(checkStatus());

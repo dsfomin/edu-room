@@ -1,12 +1,15 @@
 package com.backend.eduroom.service;
 
 import com.backend.eduroom.model.Course;
+import com.backend.eduroom.model.CourseRegistration;
 import com.backend.eduroom.model.User;
 import com.backend.eduroom.repository.CourseRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @AllArgsConstructor

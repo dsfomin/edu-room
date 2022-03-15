@@ -3,6 +3,7 @@ package com.backend.eduroom.controller;
 import com.backend.eduroom.model.Course;
 import com.backend.eduroom.model.User;
 import com.backend.eduroom.model.UserRole;
+import com.backend.eduroom.service.CourseRegistrationService;
 import com.backend.eduroom.service.CourseService;
 import com.backend.eduroom.service.UserService;
 import lombok.AllArgsConstructor;
@@ -20,6 +21,7 @@ import java.util.Set;
 public class CourseController {
 
     private final CourseService courseService;
+    private final CourseRegistrationService courseRegistrationService;
     private final UserService userService;
 
     @GetMapping
@@ -52,5 +54,10 @@ public class CourseController {
         courseService.deleteCourse(courseId);
     }
 
-
+    @PostMapping("{courseId}/participate")
+    public void participateCourse(@PathVariable("courseId") Course course,
+                                  @AuthenticationPrincipal User user) {
+        User userFromDb = userService.getUser(user.getId());
+        courseRegistrationService.participate(course, userFromDb);
+    }
 }
