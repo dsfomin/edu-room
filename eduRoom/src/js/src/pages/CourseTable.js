@@ -11,13 +11,14 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { Empty } from 'antd';
 import React, { useState, useEffect } from 'react';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { deleteCourse, getAllCourses } from '../client';
 import { useAuth } from '../hook/useAuth';
 
 export default function CourseTable() {
   const { token } = useAuth();
   const [courses, setCourses] = useState([])
+  const navigate = useNavigate();
 
   useEffect(() => {
     getAllCourses(token)
@@ -26,12 +27,13 @@ export default function CourseTable() {
       .catch(error => {
         console.log(error);
       });
-  }, [])
+  }, [navigate])
 
   const delCourse = (courseId) => {
     deleteCourse(courseId, token).catch(err => {
       console.log('Delete Course: Something went wrong', err);
     });
+    window.location.reload(false);
   }
 
   return (

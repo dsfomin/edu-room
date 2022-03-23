@@ -14,26 +14,23 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@JsonIdentityInfo(scope = CourseRegistration.class, property = "id",
+@JsonIdentityInfo(scope = TaskProgress.class, property = "id",
         resolver = EntityIdResolver.class,
         generator = ObjectIdGenerators.PropertyGenerator.class)
-public class CourseRegistration {
+public class TaskProgress {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    @JsonIdentityReference(alwaysAsId = true)
     @JoinColumn(name = "student_id", nullable = false)
+    @JsonIdentityReference(alwaysAsId = true)
     private User user;
 
     @ManyToOne
+    @JoinColumn(name = "task_id", nullable = false)
     @JsonIdentityReference(alwaysAsId = true)
-    @JoinColumn(name = "course_id", nullable = false)
-    private Course course;
+    private Task task;
 
-    private Boolean isEnrolled;
-
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime registeredAt;
+    private Boolean isDone;
 }

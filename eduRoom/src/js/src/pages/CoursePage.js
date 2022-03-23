@@ -1,12 +1,13 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { Typography, Button } from "@mui/material";
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { findCourse, participate } from '../client';
 import { useAuth } from "../hook/useAuth";
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
 function CoursePage() {
-    const { id } = useParams()
+    const { id } = useParams();
     const { token } = useAuth();
 
     const [course, setCourse] = useState({
@@ -46,6 +47,17 @@ function CoursePage() {
             >
                 Participate
             </Button>
+            <Link
+                style={{ textDecoration: "none" }}
+                to={"/add-new-task/" + course.id}
+            >
+                <Button
+                    sx={{ my: 2, color: 'green', display: 'block' }}
+                    variant="outlined"
+                    startIcon={<AddCircleOutlineIcon />}>
+                    Add Task
+                </Button>
+            </Link>
         </>
     )
 }

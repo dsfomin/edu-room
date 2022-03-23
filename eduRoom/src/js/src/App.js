@@ -18,11 +18,14 @@ import AddCourseForm from './pages/AddCourseForm';
 import RequireTeacherAuth from './hoc/RequireTeacherAuth';
 import EditCourseForm from './pages/EditCourseForm';
 import CoursePage from './pages/CoursePage';
+import AddTaskForm from './pages/AddTaskForm';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
 
 function App() {
 
   return (
-    <>
+    <LocalizationProvider dateAdapter={AdapterDateFns}>
       <ResponsiveAppBar />
       <Container>
         <Routes>
@@ -33,13 +36,14 @@ function App() {
           <Route path="/courses" element={<RequireUserAuth><CourseTable /></RequireUserAuth>} />
           <Route path="/course-page/:id" element={<RequireUserAuth><CoursePage/></RequireUserAuth>} />
           <Route path="/add-new-course" element={<RequireTeacherAuth><AddCourseForm /></RequireTeacherAuth>} />
+          <Route path="/add-new-task/:id" element={<RequireTeacherAuth><AddTaskForm /></RequireTeacherAuth>} />
           <Route path="/edit-course/:id" element={<RequireTeacherAuth><EditCourseForm/></RequireTeacherAuth>} />
           <Route path="/users" element={<RequireAdminAuth><StudentTable /></RequireAdminAuth>} />
           <Route path="/edit-user/:id" element={<RequireAdminAuth><EditUserForm/></RequireAdminAuth>} />
           <Route path="/add-new-teacher" element={<RequireAdminAuth><AddTeacherForm /></RequireAdminAuth>} />
         </Routes>
       </Container>
-    </>
+    </LocalizationProvider>
   );
 }
 

@@ -145,3 +145,54 @@ export const participate = (courseId, token) =>
         method: 'POST',
     })
         .then(checkStatus());
+
+// TASK API
+
+export const addNewTask = (task, token) =>
+    fetch(baseUrl + 'tasks', {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+        },
+        method: 'POST',
+        body: JSON.stringify(task),
+    })
+        .then(checkStatus);
+
+export const getAllTasks = (token) =>
+    fetch(baseUrl + 'tasks', {
+        method: 'GET',
+        headers: {
+            'Authorization': 'Bearer ' + token
+        }
+    })
+        .then(checkStatus);
+
+export const deleteTask = (taskId, token) =>
+    fetch(baseUrl + `tasks/${taskId}`, {
+        method: 'DELETE',
+        headers: {
+            'Authorization': 'Bearer ' + token
+        }
+    })
+        .then(checkStatus);
+
+export const findTask = (taskId, token) =>
+    fetch(baseUrl + `tasks/${taskId}`, {
+        method: 'GET',
+        headers: {
+            'Authorization': 'Bearer ' + token
+        }
+    })
+        .then(checkStatus);
+
+export const updateTask = (taskId, task, token) =>
+    fetch(baseUrl + `tasks/${taskId}`, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+        },
+        method: 'PUT',
+        body: JSON.stringify(task),
+    })
+        .then(checkStatus);

@@ -1,5 +1,6 @@
 package com.backend.eduroom.model;
 
+import com.backend.eduroom.util.EntityIdResolver;
 import com.fasterxml.jackson.annotation.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -17,9 +18,10 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id")
+@EqualsAndHashCode(of = {"id"})
+@JsonIdentityInfo(scope = User.class, property = "id",
+        resolver = EntityIdResolver.class,
+        generator = ObjectIdGenerators.PropertyGenerator.class)
 public class User implements UserDetails {
 
     @Id
@@ -34,19 +36,18 @@ public class User implements UserDetails {
 
     private String password;
 
+    private Boolean isActive;
+
     @ElementCollection(targetClass = UserRole.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
     private Set<UserRole> authorities = new HashSet<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JsonIgnoreProperties("user")
+    @OneToMany(mappedBy = "user", orphanRemoval = true)
     private Set<CourseRegistration> chosenCourses = new HashSet<>();
 
-    @ManyToMany(mappedBy = "courseTeachers")
-    private Set<Course> teacherCourses = new HashSet<>();
-
-    private Boolean isActive;
+    @OneToMany(mappedBy = "task", orphanRemoval = true)
+    private Set<TaskProgress> userTasks = new HashSet<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

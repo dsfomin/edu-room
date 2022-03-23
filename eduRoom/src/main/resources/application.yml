@@ -13,6 +13,7 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL5Dialect
+        format_sql: false
     show-sql: true
 
 jwt:
@@ -20,3 +21,4 @@ jwt:
     app: EduRoom-App
     secret_key: asdfg567
     expires_in: 3600
+

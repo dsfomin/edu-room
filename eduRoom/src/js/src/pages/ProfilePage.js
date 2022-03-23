@@ -1,6 +1,6 @@
 import { Container } from "@mui/material";
 import { useAuth } from "../hook/useAuth"
-
+import { Typography } from "@mui/material";
 
 export default function ProfilePage() {
 
@@ -9,8 +9,10 @@ export default function ProfilePage() {
     return (
 
         <Container>
-            <div>Email: {email}</div>
-            <div>Authorities: {authorities}</div>
+            <Typography>Email: {email}</Typography>
+            <Typography>Authorities: {authorities.map((authority, idx) => {
+                return <li key={idx}>{authority}</li>;
+            })}</Typography>
         </Container>
 
     )

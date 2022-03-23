@@ -49,6 +49,7 @@ public class UserController {
 
     @PostMapping
     public void addNewTeacher(@RequestBody User user) {
+        System.out.println(user);
         user.setIsActive(true);
         user.setAuthorities(Set.of(UserRole.USER, UserRole.TEACHER));
         user.setPassword(passwordEncoder.bCryptPasswordEncoder().encode(user.getPassword()));

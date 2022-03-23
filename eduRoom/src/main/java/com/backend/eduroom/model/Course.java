@@ -1,5 +1,6 @@
 package com.backend.eduroom.model;
 
+import com.backend.eduroom.util.EntityIdResolver;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -17,22 +18,27 @@ import java.util.Set;
 @Setter
 @Builder
 @AllArgsConstructor
-@EqualsAndHashCode
+@EqualsAndHashCode(of = {"id"})
 @NoArgsConstructor
+@JsonIdentityInfo(scope = Course.class, property = "id",
+        resolver = EntityIdResolver.class,
+        generator = ObjectIdGenerators.PropertyGenerator.class)
 public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JsonIgnoreProperties("course")
-    private Set<CourseRegistration> enrolledUsers;
-
     private String description;
 
     private String name;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "course", orphanRemoval = true)
+    private Set<Task> tasks;
+
+    @OneToMany(mappedBy = "course", orphanRemoval = true)
+    private Set<CourseRegistration> enrolledUsers;
+
+    @ManyToMany
     @JoinTable(
             name = "course_teachers",
             joinColumns = @JoinColumn(name = "course_id"),
