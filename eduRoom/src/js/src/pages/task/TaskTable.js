@@ -11,26 +11,26 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { Empty } from 'antd';
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from "react-router-dom";
-import { deleteCourse, getAllCourses } from '../client';
-import { useAuth } from '../hook/useAuth';
+import { Link, useParams } from "react-router-dom";
+import { getAllTasksByCourse, deleteTask } from '../../client';
+import { useAuth } from '../../hook/useAuth';
 
-export default function CourseTable() {
+export default function TaskTable() {
   const { token } = useAuth();
-  const [courses, setCourses] = useState([])
-  const navigate = useNavigate();
+  const [tasks, setTasks] = useState([])
+  const { id } = useParams();
 
   useEffect(() => {
-    getAllCourses(token)
+    getAllTasksByCourse(token, id)
       .then(res => res.json()
-        .then(data => setCourses([...data])))
+        .then(data => setTasks([...data])))
       .catch(error => {
         console.log(error);
       });
-  }, [navigate])
+  }, [id])
 
-  const delCourse = (courseId) => {
-    deleteCourse(courseId, token).catch(err => {
+  const delTask = (taskId) => {
+    deleteTask(taskId, token).catch(err => {
       console.log('Delete Course: Something went wrong', err);
     });
     window.location.reload(false);
@@ -40,53 +40,61 @@ export default function CourseTable() {
     <>
       <Link
         style={{ textDecoration: "none" }}
-        to={"/add-new-course"}
+        to={"/add-new-task/" + id}
       >
-        <Button sx={{ mt: 2 }} variant="outlined" startIcon={<AddCircleOutlineIcon />}>
-          Add Course
+        <Button
+          sx={{ my: 2, color: 'green', display: 'block' }}
+          variant="outlined"
+          startIcon={<AddCircleOutlineIcon />}>
+          Add Task
         </Button>
       </Link>
 
+
+
       <TableContainer component={Paper} sx={{ width: 1, mt: 1 }}>
-        {(courses && courses.length)
+        {(tasks && tasks.length)
           ? <Table aria-label="simple table">
             <TableHead>
               <TableRow>
                 <TableCell>ID</TableCell>
-                <TableCell>Name</TableCell>
-                <TableCell />
-                <TableCell />
-                <TableCell />
+                <TableCell>Task</TableCell>
+                <TableCell>Created At</TableCell>
+                <TableCell>Expires At</TableCell>
+                <TableCell>Delete</TableCell>
+                <TableCell>Update</TableCell>
+                <TableCell>Look-up</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {courses.map((course) => (
+              {tasks.map((task) => (
                 <TableRow
-                  key={course.id}
+                  key={task.id}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
-                  <TableCell scope="course">{course.id}</TableCell>
-                  <TableCell>{course.name}</TableCell>
+                  <TableCell scope="task">{task.id}</TableCell>
+                  <TableCell>{task.task}</TableCell>
+                  <TableCell>{task.createdAt}</TableCell>
+                  <TableCell>{task.expiresAt}</TableCell>
                   <TableCell>
-                    <Button onClick={() => delCourse(course.id)} variant="outlined" startIcon={<DeleteIcon />}>Delete Course</Button>
+                    <Button onClick={() => delTask(task.id)} variant="outlined" startIcon={<DeleteIcon />}>Delete Task</Button>
                   </TableCell>
                   <TableCell>
                     <Link
                       style={{ textDecoration: "none" }}
-                      to={`/edit-course/${course.id}`}
+                      to={`/edit-task/${id}/${task.id}`}
                     >
-                      <Button variant="outlined" startIcon={<ModeEditIcon />}>Edit Course</Button>
+                      <Button variant="outlined" startIcon={<ModeEditIcon />}>Edit Task</Button>
                     </Link>
                   </TableCell>
                   <TableCell>
-                  <Link
+                    <Link
                       style={{ textDecoration: "none" }}
-                      to={`/course-page/${course.id}`}
+                      to={`/task-page/${task.id}`}
                     >
-                      <Button variant="outlined" startIcon={<ModeEditIcon />}>Course Page</Button>
+                      <Button variant="outlined" startIcon={<ModeEditIcon />}>Task Page</Button>
                     </Link>
                   </TableCell>
-
                 </TableRow>
               ))}
             </TableBody>

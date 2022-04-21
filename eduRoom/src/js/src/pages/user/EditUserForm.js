@@ -2,8 +2,8 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { Paper, TextField, Typography, Button } from "@mui/material";
 import { useNavigate, useParams } from 'react-router-dom';
-import { findUser, updateUser } from '../client';
-import { useAuth } from "../hook/useAuth";
+import { findUser, updateUser } from '../../client';
+import { useAuth } from "../../hook/useAuth";
 
 
 export default function EditUserForm() {

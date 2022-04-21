@@ -1,31 +1,29 @@
 import React from "react";
 import { useState } from "react";
-import { Paper, TextField, Typography, Button } from "@mui/material";
-import { useNavigate } from 'react-router-dom';
-import { addNewTeacher } from "../client";
-import { useAuth } from "../hook/useAuth";
+import { Paper, TextField, Typography, Button, Box } from "@mui/material";
+import { useNavigate, Link } from 'react-router-dom';
+import { registerUser } from "../../client";
 
-export default function AddTeacherForm() {
+export default function RegisterPage() {
     const navigate = useNavigate();
-    const {token} = useAuth();
 
     const [user, setUser] = useState({
         name: "",
         surname: "",
         email: "",
-        password: "",
+        password: ""
     });
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        addNewTeacher(user, token);
-        navigate('/users');
-        setUser({ name: "", surname: "", email: "" , password: ""});
+        registerUser(user);
+        navigate('/login');
+        setUser({ name: "", surname: "", email: "", password: ""});
     };
 
     return (
         <Paper>
-            <h2>Create Teacher Form</h2>
+            <h2>Create User Form</h2>
             <TextField
                 value={user.name}
                 label={"Name"}
@@ -47,7 +45,12 @@ export default function AddTeacherForm() {
                 onChange={e => setUser({ ...user, password: e.target.value })}
             />
             <Typography />
-            <Button onClick={handleSubmit}>Create Teacher</Button>
+            <Button onClick={handleSubmit}>Register</Button>
+            <Box>
+                    <Typography>Already have account? </Typography>
+                    <Link to={"/login"}>Sign In</Link>
+
+            </Box>
         </Paper>
     )
 }

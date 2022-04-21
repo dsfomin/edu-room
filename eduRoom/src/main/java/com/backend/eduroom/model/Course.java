@@ -1,15 +1,13 @@
 package com.backend.eduroom.model;
 
-import com.backend.eduroom.util.EntityIdResolver;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.backend.eduroom.util.View;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonView;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -20,30 +18,32 @@ import java.util.Set;
 @AllArgsConstructor
 @EqualsAndHashCode(of = {"id"})
 @NoArgsConstructor
-@JsonIdentityInfo(scope = Course.class, property = "id",
-        resolver = EntityIdResolver.class,
-        generator = ObjectIdGenerators.PropertyGenerator.class)
-public class Course {
+public class Course implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonView({View.CourseView.IdName.class, View.TaskView.IdTask.class})
     private Long id;
 
+    @JsonView(View.CourseView.IdName.class)
     private String description;
 
+    @JsonView(View.CourseView.IdName.class)
     private String name;
 
-    @OneToMany(mappedBy = "course", orphanRemoval = true)
-    private Set<Task> tasks;
-
+    @JsonView(View.CourseView.Internal.class)
     @OneToMany(mappedBy = "course", orphanRemoval = true)
     private Set<CourseRegistration> enrolledUsers;
 
+    @JsonView(View.CourseView.Internal.class)
     @ManyToMany
-    @JoinTable(
-            name = "course_teachers",
+    @JoinTable(name = "course_teachers",
             joinColumns = @JoinColumn(name = "course_id"),
             inverseJoinColumns = @JoinColumn(name = "teacher_id"))
     private Set<User> courseTeachers = new HashSet<>();
+
+    @JsonView(View.CourseView.Tasks.class)
+    @OneToMany(mappedBy = "course")
+    private Set<Task> tasks;
 
     @Override
     public String toString() {
@@ -51,6 +51,8 @@ public class Course {
                 "id=" + id +
                 ", description='" + description + '\'' +
                 ", name='" + name + '\'' +
+                ", enrolledUsers ='" + enrolledUsers + '\'' +
+                ", courseTeachers='" + courseTeachers + '\'' +
                 ']';
     }
 }

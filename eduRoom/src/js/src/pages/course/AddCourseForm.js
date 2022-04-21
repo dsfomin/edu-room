@@ -2,8 +2,8 @@ import React  from "react";
 import { useState } from "react";
 import { Paper, TextField, Typography, Button } from "@mui/material";
 import { useNavigate } from 'react-router-dom';
-import { addNewCourse } from "../client";
-import { useAuth } from "../hook/useAuth";
+import { addNewCourse } from "../../client";
+import { useAuth } from "../../hook/useAuth";
 
 
 export default function AddCourseForm() {

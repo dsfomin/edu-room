@@ -65,6 +65,24 @@ export const findUser = (userId, token) =>
     })
         .then(checkStatus);
 
+export const blockUser = (userId, token) =>
+    fetch(baseUrl + `users/${userId}/block`, {
+        method: 'GET',
+        headers: {
+            'Authorization': 'Bearer ' + token
+        }
+    })
+        .then(checkStatus);
+
+export const unblockUser = (userId, token) =>
+    fetch(baseUrl + `users/${userId}/unblock`, {
+        method: 'GET',
+        headers: {
+            'Authorization': 'Bearer ' + token
+        }
+    })
+        .then(checkStatus);
+
 export const authenticateUser = (user) =>
     fetch(baseUrl + `users/login`, {
         headers: {
@@ -148,8 +166,8 @@ export const participate = (courseId, token) =>
 
 // TASK API
 
-export const addNewTask = (task, token) =>
-    fetch(baseUrl + 'tasks', {
+export const addNewTask = (task, courseId, token) =>
+    fetch(baseUrl + `tasks/${courseId}`, {
         headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + token
@@ -161,6 +179,15 @@ export const addNewTask = (task, token) =>
 
 export const getAllTasks = (token) =>
     fetch(baseUrl + 'tasks', {
+        method: 'GET',
+        headers: {
+            'Authorization': 'Bearer ' + token
+        }
+    })
+        .then(checkStatus);
+
+export const getAllTasksByCourse = (token, courseId) =>
+    fetch(baseUrl + 'tasks/course/' + courseId, {
         method: 'GET',
         headers: {
             'Authorization': 'Bearer ' + token
@@ -194,5 +221,32 @@ export const updateTask = (taskId, task, token) =>
         },
         method: 'PUT',
         body: JSON.stringify(task),
+    })
+        .then(checkStatus);
+
+export const submitTask = (taskId, userId, token) =>
+    fetch(baseUrl + `tasks/submit/${taskId}/${userId}`, {
+        method: 'GET',
+        headers: {
+            'Authorization': 'Bearer ' + token
+        }
+    })
+        .then(checkStatus);
+
+export const getTaskProgressByTaskAndUser = (taskId, userId, token) =>
+    fetch(baseUrl + `tasks/task-page/${taskId}/${userId}`, {
+        method: 'GET',
+        headers: {
+            'Authorization': 'Bearer ' + token
+        }
+    })
+        .then(checkStatus);
+
+export const getAllMyTasks = (userId, token) =>
+    fetch(baseUrl + `tasks/my-tasks/${userId}`, {
+        method: 'GET',
+        headers: {
+            'Authorization': 'Bearer ' + token
+        }
     })
         .then(checkStatus);

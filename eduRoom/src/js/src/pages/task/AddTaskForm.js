@@ -2,8 +2,8 @@ import React from "react";
 import { useState } from "react";
 import { Paper, TextField, Typography, Button } from "@mui/material";
 import { useNavigate, useParams } from 'react-router-dom';
-import { addNewTask } from "../client";
-import { useAuth } from "../hook/useAuth";
+import { addNewTask } from "../../client";
+import { useAuth } from "../../hook/useAuth";
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DateTimePicker from '@mui/lab/DateTimePicker';
@@ -20,15 +20,14 @@ export default function AddTaskForm() {
             new Date(),
             'yyyy-MM-dd HH:mm:ss'
         ),
-        course: id,
     });
 
 
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        addNewTask(task, token);
-        navigate('/course-page/' + id);
+        addNewTask(task, id, token);
+        navigate('/tasks/' + id);
         setTask({ task: "", expiresAt: "" });
     };
 

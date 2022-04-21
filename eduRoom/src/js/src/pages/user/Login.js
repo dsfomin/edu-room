@@ -2,8 +2,8 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Paper, TextField, Typography, Button, Box } from "@mui/material";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import {signin} from "../store/slices/userSlice"
-import { authenticateUser } from "../client";
+import {signin} from "../../store/slices/userSlice"
+import { authenticateUser } from "../../client";
 
 export default function Login() {
     const navigate = useNavigate();

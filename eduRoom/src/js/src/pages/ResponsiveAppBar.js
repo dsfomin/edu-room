@@ -88,6 +88,9 @@ const ResponsiveAppBar = () => {
               <MenuItem component={Link} to={"/courses"} key={"courses"} onClick={handleCloseNavMenu}>
                 <Typography textAlign="center">Courses</Typography>
               </MenuItem>
+              <MenuItem component={Link} to={"/my-tasks"} key={"myTasks"} onClick={handleCloseNavMenu}>
+                <Typography textAlign="center">My Tasks</Typography>
+              </MenuItem>
             </Menu>
           </Box>
           <Typography
@@ -115,6 +118,15 @@ const ResponsiveAppBar = () => {
               sx={{ my: 2, color: 'white', display: 'block' }}
             >
               Courses
+            </Button>
+            <Button
+              component={Link}
+              to={"/my-tasks"}
+              key={"myTasks"}
+              onClick={handleCloseNavMenu}
+              sx={{ my: 2, color: 'white', display: 'block' }}
+            >
+              My Tasks
             </Button>
           </Box>
           <Box

@@ -2,9 +2,9 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { Typography, Button } from "@mui/material";
 import { Link, useParams } from 'react-router-dom';
-import { findCourse, participate } from '../client';
-import { useAuth } from "../hook/useAuth";
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import { findCourse, participate } from '../../client';
+import { useAuth } from "../../hook/useAuth";
+import ListAltIcon from '@mui/icons-material/ListAlt';
 
 function CoursePage() {
     const { id } = useParams();
@@ -15,14 +15,14 @@ function CoursePage() {
         name: "",
         description: "",
         courseTeachers: [],
-        enrolledUsers: []
+        enrolledUsers: [],
     });
 
     useEffect(() => {
         findCourse(id, token)
             .then(res => res.json())
             .then(data => setCourse(data))
-    }, [id])
+    }, [id, token])
 
 
     const participateOnCourse = () => {
@@ -36,26 +36,25 @@ function CoursePage() {
             <Typography>id: {course.id}</Typography>
             <Typography>name: {course.name}</Typography>
             <Typography>description: {course.description}</Typography>
-            <Typography>users: {course.enrolledUsers.map(user => {
-                return <li key={user.user.id}>{user.user.email}</li>;
-            })}</Typography>
-            <Typography>teacher: {course.courseTeachers.map(teacher => teacher.name)}</Typography>
+            <Typography>users: {course.enrolledUsers.map(registration => registration.user.email).join(", ")}</Typography>
+            <Typography>teacher: {course.courseTeachers.map(teacher => teacher.name).join(", ")}</Typography>
             <Button
                 key={"participate"}
                 onClick={participateOnCourse}
-                sx={{ my: 2, color: 'green', display: 'block' }}
+                variant="outlined"
+                sx={{ my: 2 , color: 'black'}}
             >
                 Participate
             </Button>
             <Link
                 style={{ textDecoration: "none" }}
-                to={"/add-new-task/" + course.id}
+                to={"/tasks/" + course.id}
             >
                 <Button
-                    sx={{ my: 2, color: 'green', display: 'block' }}
+                    sx={{ my: 1, color: 'black' }}
                     variant="outlined"
-                    startIcon={<AddCircleOutlineIcon />}>
-                    Add Task
+                    startIcon={<ListAltIcon/>}>
+                    Course Tasks
                 </Button>
             </Link>
         </>

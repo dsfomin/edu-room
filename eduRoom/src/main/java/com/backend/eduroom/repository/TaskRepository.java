@@ -10,6 +10,9 @@ import java.util.List;
 
 @Repository
 public interface TaskRepository extends JpaRepository<Task, Long> {
-    @EntityGraph(attributePaths = { "taskProgresses" })
+    @EntityGraph(attributePaths = {"taskProgresses"})
     List<Task> findAll();
+
+    @EntityGraph(attributePaths = {"taskProgresses"})
+    List<Task> findAllByCourse(Course course);
 }

@@ -12,11 +12,11 @@ import TableRow from '@mui/material/TableRow';
 import { Empty } from 'antd';
 import React, { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
-import { deleteUser, getAllUsers } from '../client';
-import { useAuth } from '../hook/useAuth';
+import { blockUser, unblockUser, deleteUser, getAllUsers } from '../../client';
+import { useAuth } from '../../hook/useAuth';
 
 export default function StudentTable() {
-  const {token} = useAuth();
+  const { token } = useAuth();
   const [students, setStudents] = useState([])
 
   useEffect(() => {
@@ -26,13 +26,28 @@ export default function StudentTable() {
       .catch(error => {
         console.log(error);
       });
-  }, [])
+  }, [token])
 
 
-  const delUser = (userId, token) => {
+  const deleteUsr = (userId, token) => {
     deleteUser(userId, token).catch(err => {
       console.log('Delete User: Something went wrong', err);
     });
+    window.location.reload(false);
+  }
+
+  const blockUsr = (userId, token) => {
+    blockUser(userId, token).catch(err => {
+      console.log('Block User: Something went wrong', err);
+    });
+    window.location.reload(false);
+  }
+
+  const unblockUsr = (userId, token) => {
+    unblockUser(userId, token).catch(err => {
+      console.log('Unblock User: Something went wrong', err);
+    });
+    window.location.reload(false);
   }
 
   return (
@@ -53,8 +68,12 @@ export default function StudentTable() {
               <TableRow>
                 <TableCell>ID</TableCell>
                 <TableCell>Name</TableCell>
-                <TableCell />
-                <TableCell />
+                <TableCell>Surname</TableCell>
+                <TableCell>Email</TableCell>
+                <TableCell>Authorities</TableCell>
+                <TableCell>Activity</TableCell>
+                <TableCell>Delete</TableCell>
+                <TableCell>Update</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -65,8 +84,16 @@ export default function StudentTable() {
                 >
                   <TableCell scope="user">{user.id}</TableCell>
                   <TableCell>{user.name}</TableCell>
+                  <TableCell>{user.surname}</TableCell>
+                  <TableCell>{user.email}</TableCell>
+                  <TableCell>{user.authorities.map((authority, idx) => <li key={idx}>{authority}</li>)}</TableCell>
                   <TableCell>
-                    <Button onClick={() => delUser(user.id, token)} variant="outlined" startIcon={<DeleteIcon />}>Delete User</Button>
+                    {user.isActive ?
+                    <Button onClick={() => blockUsr(user.id, token)} variant="outlined" startIcon={<ModeEditIcon />}>Block User</Button> :
+                    <Button onClick={() => unblockUsr(user.id, token)} variant="outlined" startIcon={<ModeEditIcon />}>Unblock User</Button>}
+                  </TableCell>
+                  <TableCell>
+                    <Button onClick={() => deleteUsr(user.id, token)} variant="outlined" startIcon={<DeleteIcon />}>Delete User</Button>
                   </TableCell>
                   <TableCell>
                     <Link

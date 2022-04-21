@@ -1,12 +1,13 @@
 package com.backend.eduroom.model;
 
-import com.backend.eduroom.util.EntityIdResolver;
-import com.fasterxml.jackson.annotation.*;
+import com.backend.eduroom.util.View;
+import com.fasterxml.jackson.annotation.JsonView;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -14,39 +15,51 @@ import java.util.Set;
 @Entity
 @Setter
 @Getter
-@Table(name = "usr")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = {"id"})
-@JsonIdentityInfo(scope = User.class, property = "id",
-        resolver = EntityIdResolver.class,
-        generator = ObjectIdGenerators.PropertyGenerator.class)
-public class User implements UserDetails {
+@Table(
+        name = "usr",
+        uniqueConstraints = {@UniqueConstraint(columnNames = {"email"})}
+)
+public class User implements UserDetails, Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonView({View.UserView.IdMail.class,
+            View.CourseView.Internal.class,
+            View.TaskView.External.class})
     private Long id;
 
-    private String name;
-
-    private String surname;
-
+    @JsonView({View.UserView.IdMail.class, View.CourseView.Internal.class})
+    @Column(name = "email", unique = true)
     private String email;
 
+    @JsonView(View.UserView.Login.class)
     private String password;
 
+    @JsonView({View.UserView.Internal.class, View.CourseView.Internal.class})
+    private String name;
+
+    @JsonView({View.UserView.Internal.class, View.CourseView.Internal.class})
+    private String surname;
+
+    @JsonView(View.UserView.Internal.class)
     private Boolean isActive;
 
+    @JsonView({View.UserView.Internal.class, View.UserView.Login.class})
     @ElementCollection(targetClass = UserRole.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
     private Set<UserRole> authorities = new HashSet<>();
 
+    @JsonView(View.UserView.Courses.class)
     @OneToMany(mappedBy = "user", orphanRemoval = true)
     private Set<CourseRegistration> chosenCourses = new HashSet<>();
 
-    @OneToMany(mappedBy = "task", orphanRemoval = true)
+    @JsonView(View.UserView.Tasks.class)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "task", orphanRemoval = true)
     private Set<TaskProgress> userTasks = new HashSet<>();
 
     @Override

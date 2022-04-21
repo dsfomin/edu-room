@@ -2,7 +2,9 @@ package com.backend.eduroom.model;
 
 import org.springframework.security.core.GrantedAuthority;
 
-public enum UserRole implements GrantedAuthority {
+import java.io.Serializable;
+
+public enum UserRole implements GrantedAuthority, Serializable {
     USER,
     TEACHER,
     ADMIN;

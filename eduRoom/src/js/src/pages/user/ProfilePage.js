@@ -1,5 +1,5 @@
 import { Container } from "@mui/material";
-import { useAuth } from "../hook/useAuth"
+import { useAuth } from "../../hook/useAuth"
 import { Typography } from "@mui/material";
 
 export default function ProfilePage() {
