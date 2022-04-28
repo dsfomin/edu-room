@@ -1,6 +1,7 @@
 import fetch from 'unfetch';
 
 export const baseUrl = "http://localhost:5000/api/";
+const authorizationHeader = 'Bearer ';
 
 const checkStatus = response => {
     if (response.ok) {
@@ -17,19 +18,20 @@ const checkStatus = response => {
 
 // USER API
 
-export const getAllUsers = (token) =>
-    fetch(baseUrl + 'users', {
-        method: 'GET',
-        headers: {
-            'Authorization': 'Bearer ' + token
-        }
-    }).then(checkStatus);
+// export const getAllUsers = (token) =>
+//     fetch(baseUrl + `users`, {
+//         method: 'GET',
+//         headers: {
+//             'Authorization': authorizationHeader + token
+//         }
+//     })
+//         .then(checkStatus);
 
 export const addNewTeacher = (user, token) =>
     fetch(baseUrl + 'users', {
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + token
+            'Authorization': authorizationHeader + token
         },
         method: 'POST',
         body: JSON.stringify(user),
@@ -40,7 +42,7 @@ export const updateUser = (userId, user, token) =>
     fetch(baseUrl + `users/${userId}`, {
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + token
+            'Authorization': authorizationHeader + token
         },
         method: 'PUT',
         body: JSON.stringify(user),
@@ -51,7 +53,7 @@ export const deleteUser = (userId, token) =>
     fetch(baseUrl + `users/${userId}`, {
         method: 'DELETE',
         headers: {
-            'Authorization': 'Bearer ' + token
+            'Authorization': authorizationHeader + token
         }
     })
         .then(checkStatus);
@@ -60,7 +62,7 @@ export const findUser = (userId, token) =>
     fetch(baseUrl + `users/${userId}`, {
         method: 'GET',
         headers: {
-            'Authorization': 'Bearer ' + token
+            'Authorization': authorizationHeader + token
         }
     })
         .then(checkStatus);
@@ -69,7 +71,7 @@ export const blockUser = (userId, token) =>
     fetch(baseUrl + `users/${userId}/block`, {
         method: 'GET',
         headers: {
-            'Authorization': 'Bearer ' + token
+            'Authorization': authorizationHeader + token
         }
     })
         .then(checkStatus);
@@ -78,7 +80,7 @@ export const unblockUser = (userId, token) =>
     fetch(baseUrl + `users/${userId}/unblock`, {
         method: 'GET',
         headers: {
-            'Authorization': 'Bearer ' + token
+            'Authorization': authorizationHeader + token
         }
     })
         .then(checkStatus);
@@ -109,7 +111,7 @@ export const addNewCourse = (course, token) =>
     fetch(baseUrl + 'courses', {
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + token
+            'Authorization': authorizationHeader + token
         },
         method: 'POST',
         body: JSON.stringify(course),
@@ -120,7 +122,7 @@ export const getAllCourses = (token) =>
     fetch(baseUrl + 'courses', {
         method: 'GET',
         headers: {
-            'Authorization': 'Bearer ' + token
+            'Authorization': authorizationHeader + token
         }
     })
         .then(checkStatus);
@@ -129,7 +131,7 @@ export const deleteCourse = (courseId, token) =>
     fetch(baseUrl + `courses/${courseId}`, {
         method: 'DELETE',
         headers: {
-            'Authorization': 'Bearer ' + token
+            'Authorization': authorizationHeader + token
         }
     })
         .then(checkStatus);
@@ -138,7 +140,7 @@ export const findCourse = (courseId, token) =>
     fetch(baseUrl + `courses/${courseId}`, {
         method: 'GET',
         headers: {
-            'Authorization': 'Bearer ' + token
+            'Authorization': authorizationHeader + token
         }
     })
         .then(checkStatus);
@@ -147,7 +149,7 @@ export const updateCourse = (courseId, course, token) =>
     fetch(baseUrl + `courses/${courseId}`, {
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + token
+            'Authorization': authorizationHeader + token
         },
         method: 'PUT',
         body: JSON.stringify(course),
@@ -158,7 +160,7 @@ export const participate = (courseId, token) =>
     fetch(baseUrl + `courses/${courseId}/participate`, {
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + token
+            'Authorization': authorizationHeader + token
         },
         method: 'POST',
     })
@@ -170,10 +172,10 @@ export const addNewTask = (task, courseId, token) =>
     fetch(baseUrl + `tasks/${courseId}`, {
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + token
+            'Authorization': authorizationHeader + token
         },
         method: 'POST',
-        body: JSON.stringify(task),
+        body: JSON.stringify(task)
     })
         .then(checkStatus);
 
@@ -181,7 +183,7 @@ export const getAllTasks = (token) =>
     fetch(baseUrl + 'tasks', {
         method: 'GET',
         headers: {
-            'Authorization': 'Bearer ' + token
+            'Authorization': authorizationHeader + token
         }
     })
         .then(checkStatus);
@@ -190,7 +192,7 @@ export const getAllTasksByCourse = (token, courseId) =>
     fetch(baseUrl + 'tasks/course/' + courseId, {
         method: 'GET',
         headers: {
-            'Authorization': 'Bearer ' + token
+            'Authorization': authorizationHeader + token
         }
     })
         .then(checkStatus);
@@ -199,7 +201,7 @@ export const deleteTask = (taskId, token) =>
     fetch(baseUrl + `tasks/${taskId}`, {
         method: 'DELETE',
         headers: {
-            'Authorization': 'Bearer ' + token
+            'Authorization': authorizationHeader + token
         }
     })
         .then(checkStatus);
@@ -208,7 +210,7 @@ export const findTask = (taskId, token) =>
     fetch(baseUrl + `tasks/${taskId}`, {
         method: 'GET',
         headers: {
-            'Authorization': 'Bearer ' + token
+            'Authorization': authorizationHeader + token
         }
     })
         .then(checkStatus);
@@ -217,7 +219,7 @@ export const updateTask = (taskId, task, token) =>
     fetch(baseUrl + `tasks/${taskId}`, {
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + token
+            'Authorization': authorizationHeader + token
         },
         method: 'PUT',
         body: JSON.stringify(task),
@@ -228,7 +230,7 @@ export const submitTask = (taskId, userId, token) =>
     fetch(baseUrl + `tasks/submit/${taskId}/${userId}`, {
         method: 'GET',
         headers: {
-            'Authorization': 'Bearer ' + token
+            'Authorization': authorizationHeader + token
         }
     })
         .then(checkStatus);
@@ -237,7 +239,7 @@ export const getTaskProgressByTaskAndUser = (taskId, userId, token) =>
     fetch(baseUrl + `tasks/task-page/${taskId}/${userId}`, {
         method: 'GET',
         headers: {
-            'Authorization': 'Bearer ' + token
+            'Authorization': authorizationHeader + token
         }
     })
         .then(checkStatus);
@@ -246,7 +248,7 @@ export const getAllMyTasks = (userId, token) =>
     fetch(baseUrl + `tasks/my-tasks/${userId}`, {
         method: 'GET',
         headers: {
-            'Authorization': 'Bearer ' + token
+            'Authorization': authorizationHeader + token
         }
     })
         .then(checkStatus);

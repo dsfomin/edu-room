@@ -9,6 +9,7 @@ import com.backend.eduroom.service.UserService;
 import com.backend.eduroom.util.View;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -22,13 +23,12 @@ import java.util.Set;
 @AllArgsConstructor
 @CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/api/courses")
+@Slf4j
 public class CourseController {
 
     private final CourseService courseService;
     private final CourseRegistrationService courseRegistrationService;
     private final UserService userService;
-
-    private final static Logger LOGGER = LoggerFactory.getLogger(CourseController.class);
 
     @GetMapping
     @JsonView(View.CourseView.IdName.class)
@@ -39,9 +39,7 @@ public class CourseController {
     @GetMapping(path = "{courseId}")
     @JsonView(View.CourseView.Internal.class)
     public Course getCourse(@PathVariable("courseId") Long courseId) {
-        Course course = courseService.getCourse(courseId);
-        LOGGER.info(course.toString());
-        return course;
+        return courseService.getCourse(courseId);
     }
 
     @Transactional

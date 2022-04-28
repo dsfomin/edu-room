@@ -8,6 +8,7 @@ import com.backend.eduroom.service.*;
 import com.backend.eduroom.util.View;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -22,9 +23,8 @@ import java.util.Set;
 @AllArgsConstructor
 @CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/api/tasks")
+@Slf4j
 public class TaskController {
-
-    private final static Logger LOGGER = LoggerFactory.getLogger(TaskController.class);
 
     private final TaskService taskService;
     private final CourseRegistrationService courseRegistrationService;

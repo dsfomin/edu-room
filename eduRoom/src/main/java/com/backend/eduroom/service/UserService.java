@@ -1,31 +1,55 @@
 package com.backend.eduroom.service;
 
-import com.backend.eduroom.model.TaskProgress;
+import com.backend.eduroom.model.PageResponse;
 import com.backend.eduroom.model.User;
 import com.backend.eduroom.model.UserRole;
 import com.backend.eduroom.repository.UserRepository;
 import com.backend.eduroom.util.PasswordEncoder;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    private final static Sort.Direction DEFAULT_SORT_DIRECTION = Sort.Direction.ASC;
+
+    public PageResponse<User> getAllUsers(Integer pageNo, Integer pageSize, String sortBy, String order) {
+        Sort.Direction direction = order.equals("desc") ? Sort.Direction.DESC : DEFAULT_SORT_DIRECTION;
+        Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(direction, sortBy));
+        Page<User> usersPage = userRepository.findAll(pageable);
+
+        return PageResponse.<User>builder()
+                .content(usersPage.getContent())
+                .pageNo(usersPage.getNumber())
+                .totalElements(usersPage.getTotalElements())
+                .totalPages(usersPage.getTotalPages())
+                .pageSize(usersPage.getSize())
+                .order(order)
+                .sortBy(sortBy)
+                .build();
     }
+//
+//    public List<User> getAllUsers() {
+//        return userRepository.findAll();
+//    }
 
     public User getUser(Long id) {
         return userRepository.findById(id).orElseThrow(() ->

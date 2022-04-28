@@ -5,6 +5,7 @@ import com.backend.eduroom.model.CourseRegistration;
 import com.backend.eduroom.model.User;
 import com.backend.eduroom.repository.CourseRepository;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -13,6 +14,7 @@ import java.util.Set;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class CourseService {
     private final CourseRepository courseRepository;
 

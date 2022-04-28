@@ -1,5 +1,6 @@
 package com.backend.eduroom.controller;
 
+import com.backend.eduroom.model.PageResponse;
 import com.backend.eduroom.model.User;
 import com.backend.eduroom.model.UserRole;
 import com.backend.eduroom.model.jwt.AuthenticationRequest;
@@ -11,8 +12,10 @@ import com.backend.eduroom.util.PasswordEncoder;
 import com.backend.eduroom.util.View;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -31,18 +34,28 @@ import java.util.Set;
 @AllArgsConstructor
 @CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("api/users")
+@Slf4j
 public class UserController {
-    private final static Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
     private final UserService userService;
     private final AuthenticationManager authenticationManager;
     private final JWTTokenHelper jwtTokenHelper;
     private final UserDetailsService userDetailsService;
 
+//    @GetMapping
+//    @JsonView(View.UserView.Internal.class)
+//    public List<User> getAllUsers() {
+//        return userService.getAllUsers();
+//    }
+
     @GetMapping
     @JsonView(View.UserView.Internal.class)
-    public List<User> getAllUsers() {
-        return userService.getAllUsers();
+    public PageResponse<User> getAllUsers(
+            @RequestParam(defaultValue = "0") Integer pageNo,
+            @RequestParam(defaultValue = "2") Integer pageSize,
+            @RequestParam(defaultValue = "name") String sortBy,
+            @RequestParam(defaultValue = "asc") String order) {
+        return userService.getAllUsers(pageNo, pageSize, sortBy, order);
     }
 
     @GetMapping(path = "{userId}")
@@ -89,7 +102,7 @@ public class UserController {
 
     @GetMapping("/userinfo")
     @JsonView(View.UserView.Login.class)
-    public ResponseEntity<?> getUserInfo(Principal user){
+    public ResponseEntity<?> getUserInfo(Principal user) {
         User userFromDb = (User) userDetailsService.loadUserByUsername(user.getName());
 
         UserInfo userInfo = new UserInfo();
@@ -109,13 +122,13 @@ public class UserController {
 
     @GetMapping("/{userId}/block")
     @JsonView(View.UserView.IdMail.class)
-    public void blockUser(@PathVariable("userId") Long userId){
+    public void blockUser(@PathVariable("userId") Long userId) {
         userService.blockUser(userId);
     }
 
     @GetMapping("/{userId}/unblock")
     @JsonView(View.UserView.IdMail.class)
-    public void unblockUser(@PathVariable("userId") Long userId){
+    public void unblockUser(@PathVariable("userId") Long userId) {
         userService.unblockUser(userId);
     }
 }

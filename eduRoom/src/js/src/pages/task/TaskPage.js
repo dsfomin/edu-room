@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
-import { Typography, Button } from "@mui/material";
+import { Typography, Button, Container } from "@mui/material";
 import { useParams } from 'react-router-dom';
 import { submitTask, getTaskProgressByTaskAndUser } from '../../client';
 import { useAuth } from "../../hook/useAuth";
@@ -33,12 +33,12 @@ function TaskPage() {
     }
 
     return (
-        <>
+        <Container>
             <Typography>id: {taskProgress.task?.id}</Typography>
             <Typography>task: {taskProgress.task?.task}</Typography>
             <Typography>createdAt: {taskProgress.task?.createdAt}</Typography>
             <Typography>expiresAt: {taskProgress.task?.expiresAt}</Typography>
-            <Typography>lastUpdate: {taskProgress.lastUpdate}</Typography>
+            {(taskProgress.lastUpdate != null && <Typography>lastUpdate: {taskProgress.lastUpdate}</Typography>)}
             <Button
                 key={"done"}
                 onClick={submitTsk}
@@ -47,7 +47,7 @@ function TaskPage() {
             >
                 Done
             </Button>
-        </>
+        </Container>
     )
 }
 

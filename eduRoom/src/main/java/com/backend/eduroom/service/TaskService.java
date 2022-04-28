@@ -6,6 +6,7 @@ import com.backend.eduroom.model.User;
 import com.backend.eduroom.repository.CourseRepository;
 import com.backend.eduroom.repository.TaskRepository;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -13,6 +14,7 @@ import java.util.List;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class TaskService {
     private final TaskRepository taskRepository;
 
