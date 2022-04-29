@@ -11,7 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@JsonView(View.UserView.Internal.class)
+@JsonView({View.UserView.Internal.class, View.CourseView.IdName.class})
 public class PageResponse<T> {
     
     private List<T> content;

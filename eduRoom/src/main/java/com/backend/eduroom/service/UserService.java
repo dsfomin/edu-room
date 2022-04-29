@@ -4,6 +4,8 @@ import com.backend.eduroom.model.PageResponse;
 import com.backend.eduroom.model.User;
 import com.backend.eduroom.model.UserRole;
 import com.backend.eduroom.repository.UserRepository;
+import com.backend.eduroom.util.Pagination;
+import com.backend.eduroom.util.PaginationRequestParams;
 import com.backend.eduroom.util.PasswordEncoder;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,23 +30,11 @@ public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-
-    private final static Sort.Direction DEFAULT_SORT_DIRECTION = Sort.Direction.ASC;
+    private final Pagination<User> userPagination;
 
     public PageResponse<User> getAllUsers(Integer pageNo, Integer pageSize, String sortBy, String order) {
-        Sort.Direction direction = order.equals("desc") ? Sort.Direction.DESC : DEFAULT_SORT_DIRECTION;
-        Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(direction, sortBy));
-        Page<User> usersPage = userRepository.findAll(pageable);
-
-        return PageResponse.<User>builder()
-                .content(usersPage.getContent())
-                .pageNo(usersPage.getNumber())
-                .totalElements(usersPage.getTotalElements())
-                .totalPages(usersPage.getTotalPages())
-                .pageSize(usersPage.getSize())
-                .order(order)
-                .sortBy(sortBy)
-                .build();
+        return userPagination.createPageResponse(userRepository,
+                new PaginationRequestParams(pageNo, pageSize, sortBy, order));
     }
 //
 //    public List<User> getAllUsers() {

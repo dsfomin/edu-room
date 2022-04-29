@@ -38,6 +38,10 @@
 }
 
 
-.table-spacer {
+.table-options-spacer {
   flex: 1 1 auto;
+}
+
+.MuiTextField-root {
+  margin: auto 0;
 }

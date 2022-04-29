@@ -8,6 +8,7 @@ import com.backend.eduroom.model.jwt.LoginResponse;
 import com.backend.eduroom.model.jwt.UserInfo;
 import com.backend.eduroom.service.UserService;
 import com.backend.eduroom.util.JWTTokenHelper;
+import com.backend.eduroom.util.Pagination;
 import com.backend.eduroom.util.PasswordEncoder;
 import com.backend.eduroom.util.View;
 import com.fasterxml.jackson.annotation.JsonView;
@@ -53,7 +54,7 @@ public class UserController {
     public PageResponse<User> getAllUsers(
             @RequestParam(defaultValue = "0") Integer pageNo,
             @RequestParam(defaultValue = "2") Integer pageSize,
-            @RequestParam(defaultValue = "name") String sortBy,
+            @RequestParam(defaultValue = "id") String sortBy,
             @RequestParam(defaultValue = "asc") String order) {
         return userService.getAllUsers(pageNo, pageSize, sortBy, order);
     }

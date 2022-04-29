@@ -65,19 +65,26 @@ export default function StudentTable() {
     window.location.reload(false);
   }
 
+  const getTopAuthority = (authorities) => {
+    if (authorities.includes("ADMIN")) return "ADMIN"
+    else if (authorities.includes("TEACHER")) return "TEACHER"
+    else if (authorities.includes("USER")) return "USER"
+    else return "UNKNOWN"
+  }
+
   return (
     <>
-      <Box component="div" sx={{ display: 'flex' }}>
+      <Box component="div" sx={{ mt: '0.5em', display: 'flex' }}>
         <Link
           style={{ textDecoration: "none" }}
           to={"/add-new-teacher"}
         >
-          <Button sx={{ mt: 2 }} variant="outlined" startIcon={<AddCircleOutlineIcon />}>
+          <Button variant="outlined" startIcon={<AddCircleOutlineIcon />}>
             Add Teacher
           </Button>
         </Link>
-        <span className="table-spacer"/>
-        <TextField id="table-search" type="search" label="Search" variant="outlined" />
+        <span className="table-options-spacer"/>
+        {students.content && students.content.length && <TextField className='table-search-field' inputProps={{ style: { verticalAlign: 'bottom' }} } size='small' id="table-search" type="search" label="Search" variant="outlined" />}
       </Box>
 
       {(students.content && students.content.length) ?
@@ -106,7 +113,7 @@ export default function StudentTable() {
                     <TableCell>{user.name}</TableCell>
                     <TableCell>{user.surname}</TableCell>
                     <TableCell>{user.email}</TableCell>
-                    <TableCell>{user.authorities.map((authority, idx) => <li key={idx}>{authority}</li>)}</TableCell>
+                    <TableCell>{getTopAuthority(user.authorities)}</TableCell>
                     <TableCell>
                       {user.isActive ?
                         <Button onClick={() => blockUsr(user.id, token)} variant="outlined" startIcon={<ModeEditIcon />}>Block User</Button> :

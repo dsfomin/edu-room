@@ -1,6 +1,7 @@
 package com.backend.eduroom.controller;
 
 import com.backend.eduroom.model.Course;
+import com.backend.eduroom.model.PageResponse;
 import com.backend.eduroom.model.User;
 import com.backend.eduroom.model.UserRole;
 import com.backend.eduroom.service.CourseRegistrationService;
@@ -30,10 +31,20 @@ public class CourseController {
     private final CourseRegistrationService courseRegistrationService;
     private final UserService userService;
 
+//    @GetMapping
+//    @JsonView(View.CourseView.IdName.class)
+//    public List<Course> getAllCourses() {
+//        return courseService.getAllCourses();
+//    }
+
     @GetMapping
     @JsonView(View.CourseView.IdName.class)
-    public List<Course> getAllCourses() {
-        return courseService.getAllCourses();
+    public PageResponse<Course> getAllCourses(
+            @RequestParam(defaultValue = "0") Integer pageNo,
+            @RequestParam(defaultValue = "2") Integer pageSize,
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(defaultValue = "asc") String order) {
+        return courseService.getAllCourses(pageNo, pageSize, sortBy, order);
     }
 
     @GetMapping(path = "{courseId}")

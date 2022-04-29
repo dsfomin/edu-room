@@ -69,7 +69,7 @@ public class TaskProgressService {
                         .task(task)
                         .user(user)
                         .isDone(false)
-                        .lastUpdate(LocalDateTime.MIN)
+                        .lastUpdate(null)
                         .build())
                 .collect(Collectors.toList());
 

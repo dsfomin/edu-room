@@ -1,7 +1,7 @@
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
-import { Button, Typography } from '@mui/material';
+import { Button, Pagination, Typography } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -12,22 +12,36 @@ import TableRow from '@mui/material/TableRow';
 import { Empty } from 'antd';
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from "react-router-dom";
-import { deleteCourse, getAllCourses } from '../../client';
+import { deleteCourse } from '../../client';
 import { useAuth } from '../../hook/useAuth';
+import CourseService from '../../services/course.service';
 
 export default function CourseTable() {
   const { token } = useAuth();
-  const [courses, setCourses] = useState([])
+  const [courses, setCourses] = useState({
+    content: [],
+    pageNo: 0,
+    pageSize: 2,
+    order: "asc",
+    sortBy: "id",
+    totalElements: "",
+    totalPages: "",
+  })
+
   const navigate = useNavigate();
 
   useEffect(() => {
-    getAllCourses(token)
-      .then(res => res.json()
-        .then(data => setCourses([...data])))
-      .catch(error => {
-        console.log(error);
+    CourseService.getAll(token, new URLSearchParams({
+      "pageNo": courses.pageNo,
+      "pageSize": courses.pageSize,
+      "order": courses.order,
+      "sortBy": courses.sortBy
+    }))
+      .then(res => setCourses(res.data))
+      .catch((e) => {
+        console.log(e);
       });
-  }, [navigate, token])
+  }, [navigate, token, courses.pageNo, courses.pageSize, courses.order, courses.sortBy])
 
   const delCourse = (courseId) => {
     deleteCourse(courseId, token).catch(err => {
@@ -48,19 +62,20 @@ export default function CourseTable() {
       </Link>
 
       <TableContainer component={Paper} sx={{ width: 1, mt: 1 }}>
-        {(courses && courses.length)
-          ? <Table aria-label="simple table">
+        {(courses.content && courses.content.length) ?
+          <>
+           <Table aria-label="simple table">
             <TableHead>
               <TableRow>
-                <TableCell>ID</TableCell>
-                <TableCell>Name</TableCell>
+                <TableCell onClick={() => setCourses({ ...courses, sortBy: "id" })}>ID</TableCell>
+                <TableCell onClick={() => setCourses({ ...courses, sortBy: "name" })}>Name</TableCell>
                 <TableCell>Delete</TableCell>
                 <TableCell>Update</TableCell>
                 <TableCell>Look-up</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {courses.map((course) => (
+              {courses.content.map((course) => (
                 <TableRow
                   key={course.id}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -79,7 +94,7 @@ export default function CourseTable() {
                     </Link>
                   </TableCell>
                   <TableCell>
-                  <Link
+                    <Link
                       style={{ textDecoration: "none" }}
                       to={`/course-page/${course.id}`}
                     >
@@ -91,6 +106,12 @@ export default function CourseTable() {
               ))}
             </TableBody>
           </Table>
+            <Pagination
+              page={courses.pageNo + 1}
+              count={courses.totalPages}
+              onChange={(event, value) => setCourses({ ...courses, pageNo: value - 1 })}
+            />
+          </>
           : <Empty description={
             <Typography component={'span'} variant={'body2'}>No Courses found</Typography>
           } />

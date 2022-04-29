@@ -43,7 +43,7 @@ export default function TaskTable() {
         to={"/add-new-task/" + id}
       >
         <Button
-          sx={{ my: 2, color: 'green', display: 'block' }}
+          sx={{ my: 2, color: 'green'}}
           variant="outlined"
           startIcon={<AddCircleOutlineIcon />}>
           Add Task
