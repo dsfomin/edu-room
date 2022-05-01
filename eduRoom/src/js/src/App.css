@@ -42,6 +42,8 @@
   flex: 1 1 auto;
 }
 
-.MuiTextField-root {
-  margin: auto 0;
+.MuiFormControl-root {
+  margin-top: 16px !important;
+  margin-bottom: 16px !important;
+  color: white !important;
 }

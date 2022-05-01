@@ -15,6 +15,7 @@ import { Link } from "react-router-dom";
 import { useAuth } from '../hook/useAuth';
 import { useDispatch } from 'react-redux';
 import { signout } from '../store/slices/userSlice';
+import LanguageSwitcher from '../components/LanguageSwitcher';
 
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
@@ -135,6 +136,7 @@ const ResponsiveAppBar = () => {
             component="div"
             sx={{ flexGrow: 0, mr: 2, display: { xs: 'none', md: 'flex' } }}
           >
+             <LanguageSwitcher/>
             {(isAuth === false)
               ? <>
                 <Button
