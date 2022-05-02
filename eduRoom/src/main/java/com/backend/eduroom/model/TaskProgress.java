@@ -42,8 +42,9 @@ public class TaskProgress implements Serializable {
     @JsonView(View.TaskView.Internal.class)
     private LocalDateTime lastUpdate;
 
+    @Enumerated(EnumType.STRING)
     @JsonView(View.TaskView.Internal.class)
-    private Boolean isDone;
+    private TaskStatus taskStatus;
 
     @Override
     public String toString() {
@@ -52,7 +53,7 @@ public class TaskProgress implements Serializable {
                 ", user=" + user.getId() +
                 ", task=" + task.getId() +
                 ", lastUpdate=" + lastUpdate +
-                ", isDone=" + isDone +
+                ", taskStatus=" + taskStatus +
                 '}';
     }
 }

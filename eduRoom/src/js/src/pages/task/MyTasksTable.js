@@ -25,7 +25,7 @@ export default function MyTaskTable() {
             expiresAt: "",
             course: {id: "",},
         },
-        isDone: "",
+        taskStatus: "",
         lastUpdate: "",
     }]);
 
@@ -64,7 +64,7 @@ export default function MyTaskTable() {
                                     <TableCell>{taskProgress.task.task}</TableCell>
                                     <TableCell>{taskProgress.task.expiresAt}</TableCell>
                                     <TableCell>{taskProgress.lastUpdate}</TableCell>
-                                    <TableCell>{(taskProgress.isDone) ? 'DONE' : 'NOT DONE'}</TableCell>
+                                    <TableCell>{taskProgress.taskStatus}</TableCell>
                                     <TableCell>
                                         <Link
                                             style={{ textDecoration: "none" }}

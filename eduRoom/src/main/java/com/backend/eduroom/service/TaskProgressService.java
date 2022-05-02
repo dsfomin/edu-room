@@ -34,7 +34,7 @@ public class TaskProgressService {
                 .id(taskProgress.map(TaskProgress::getId).orElse(null))
                 .task(task)
                 .user(user)
-                .isDone(true)
+                .taskStatus(TaskStatus.SUBMITTED)
                 .lastUpdate(LocalDateTime.now())
                 .build());
     }
@@ -46,7 +46,7 @@ public class TaskProgressService {
                 .id(byTaskAndUser.map(TaskProgress::getId).orElse(null))
                 .lastUpdate(byTaskAndUser.map(TaskProgress::getLastUpdate).orElse(null))
                 .task(byTaskAndUser.map(TaskProgress::getTask).orElse(task))
-                .isDone(byTaskAndUser.map(TaskProgress::getIsDone).orElse(null))
+                .taskStatus(byTaskAndUser.map(TaskProgress::getTaskStatus).orElse(null))
                 .user(byTaskAndUser.map(TaskProgress::getUser).orElse(null))
                 .build();
     }
@@ -68,7 +68,7 @@ public class TaskProgressService {
                 .map(task -> TaskProgress.builder()
                         .task(task)
                         .user(user)
-                        .isDone(false)
+                        .taskStatus(TaskStatus.NOT_SUBMITTED)
                         .lastUpdate(null)
                         .build())
                 .collect(Collectors.toList());
